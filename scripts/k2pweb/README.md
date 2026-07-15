@@ -1,9 +1,9 @@
-# k2p Evidence and Analysis Pipeline
+# k2pweb Evidence and Analysis Pipeline
 
-This directory is the human-facing home for the planned privacy-preserving
-knime2py/k2p evidence pipeline. This document is the authoritative data
-contract, analysis boundary, and provenance specification for future scripts
-placed here.
+This directory documents the privacy-preserving knime2py/k2p evidence contract
+and analysis boundary. The current factory-only k2pweb export is processed by
+`scripts/k2pweb/build_deprecated_node_usage.py` because its exact join
+depends directly on the source-mined KNIME factory registry.
 
 ## Purpose
 
@@ -13,12 +13,17 @@ submitted for conversion and whether those nodes create translation or
 migration work. This demand-side evidence complements the platform-side history
 extracted from public KNIME repositories.
 
-No knime2py dataset is currently included in this repository. The statements
-below define the minimum evidence and privacy contract for adding it.
+The repository includes a factory-only k2pweb export covering 2026-03-25 through
+2026-07-15. It contains a study-local deduplicated workflow index and one full
+factory class per node occurrence. It does not contain conversion outcomes,
+translation-support status, workflow contents, node settings, or user/session
+identifiers. The statements below remain the minimum contract for richer future
+exports.
 
 ## Directory Status
 
-No empirical export or analysis script is present yet. Future scripts should:
+The current script validates and analyzes the limited factory-occurrence export.
+Future extensions should:
 
 - validate an approved anonymized export;
 - separate submissions, workflows, node occurrences, and node types;
@@ -26,6 +31,32 @@ No empirical export or analysis script is present yet. Future scripts should:
 - retain unmatched and ambiguous identifiers;
 - generate disclosure-reviewed aggregates; and
 - record input, code, join, and output provenance.
+
+Run the current analysis from the repository root:
+
+```sh
+make deprecated-node-usage
+```
+
+The script writes:
+
+```text
+data/processed/k2pweb/deprecated_node_factory_registry.csv
+data/processed/k2pweb/k2pweb_factory_join_audit.csv
+data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv
+```
+
+The current result contains 62 deduplicated workflows, 2745 node occurrences,
+and 160 factory classes. Exact matching to the 2026-06-28 ordinary-node
+registry resolves 146 factory classes and 2549 occurrences. Twenty-one
+workflows contain a matched deprecated factory, accounting for 294 occurrences
+and 21 distinct deprecated factory classes.
+
+Fourteen factory classes remain `not_found`. This status means absent from the
+selected public ordinary-node registry, not invalid in KNIME. It includes a
+dynamically produced factory, a factory removed after the 2019 snapshot, and
+factories potentially supplied by extensions outside the retained public-source
+corpus.
 
 ## Unit of Analysis
 
@@ -114,14 +145,14 @@ the exported node identifier to the KNIME source-mining tables.
    or other partial string.
 6. Report join coverage before reporting deprecation prevalence.
 
-Possible join states are:
+The current join-audit states are:
 
 ```text
-exact_factory_class | explicit_alias | ambiguous | not_found | identifier_missing
+exact_deprecated | exact_not_deprecated | not_found
 ```
 
-An `explicit_alias` requires independently recorded mapper or migration
-evidence; it is not a fuzzy match.
+Future `explicit_alias` handling would require independently recorded mapper or
+migration evidence; it must not be inferred through fuzzy matching.
 
 ## Core Metrics
 
@@ -170,5 +201,12 @@ Every processed knime2py result must record:
 - suppression or disclosure-control rule; and
 - script and output paths.
 
-Until these fields and an approved export exist, knime2py counts remain planned
-evidence rather than empirical findings.
+For the current export, the observation window, export date, counting units,
+classification snapshot, join coverage, script, and output paths are recorded.
+The exporter version and the implementation details of the upstream
+deduplication procedure were not supplied; this is a provenance limitation even
+though each exported `index` is confirmed to identify one deduplicated
+workflow.
+
+Counts outside the current factory-occurrence scope remain planned evidence
+until the required fields and an approved export exist.

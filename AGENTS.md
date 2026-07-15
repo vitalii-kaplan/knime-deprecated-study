@@ -50,9 +50,14 @@ is broken or scientifically irreproducible.
 
 - Only an approved anonymized export or aggregate result may enter this
   repository.
-- The data contract and metric definitions are in `scripts/k2p/README.md`.
-- Until an export is present and validated, describe this evidence stream as
-  planned; do not report provisional volume as a verified number of workflows.
+- The data contract and metric definitions are in `scripts/k2pweb/README.md`.
+- The approved factory-only export at `data/original/k2pweb/factories.csv`
+  contains 62 deduplicated workflows observed from 2026-03-25 through
+  2026-07-15. Each `index` uniquely identifies one deduplicated workflow.
+- Derived registry, join-audit, and aggregate results are under
+  `data/processed/k2pweb/`.
+- This export supports factory-occurrence and workflow-prevalence analysis; it
+  does not contain translation-support or conversion-outcome evidence.
 
 ## Working Rules
 
@@ -88,8 +93,9 @@ is broken or scientifically irreproducible.
 - Preserve raw KNIME snapshot records separately from processed summaries.
 - Keep claims traceable to a source file, snapshot, script, or documented
   knime2py aggregate.
-- Keep `article/article.tex` focused on deprecated nodes and the planned
-  knime2py evidence stream. Do not reintroduce unrelated earlier sections.
+- Keep `article/article.tex` focused on deprecated nodes and the approved
+  factory-only k2pweb evidence stream. Do not reintroduce unrelated earlier
+  sections.
 - Do not invent an affiliation. The current `\institute{...}` block contains
   only the supplied email address.
 
@@ -103,6 +109,11 @@ and `.metadata`, and writes per-record CSVs for:
 - node-description XML;
 - `NodeFactoryClassMapper` entries; and
 - `NodeMigrationRule` entries.
+
+The current extension-registration pass reads `plugin.xml`; it does not yet
+collect contributions declared in `fragment.xml`. Keep that coverage boundary
+explicit in result interpretation until the extractor and all retained
+snapshots are rebuilt with fragment support.
 
 Date-based source snapshots currently cover:
 
@@ -152,10 +163,11 @@ separate source.
 2. Link deprecated nodes to mapper and migration-rule evidence.
 3. Manually validate representative deprecated, hidden, removed, migrated, and
    inconsistent records.
-4. Define and validate the knime2py anonymized export.
-5. Join observed knime2py node types to the KNIME lifecycle table.
-6. Produce aggregate prevalence, translation-impact, and migration-advice
-   tables only after the units and join quality are verified.
+4. Extend and validate source extraction for `fragment.xml` contributions.
+5. Investigate unresolved k2pweb factories across dynamic node sets, removed
+   registrations, and extension-distribution boundaries.
+6. Add translation-impact and migration-advice tables only after the required
+   fields and join quality are verified.
 
 ## Verification
 
@@ -182,9 +194,11 @@ in the derived-output metadata.
 |   `-- references.bib
 |-- data/
 |   |-- original/knime_snapshots/
-|   `-- processed/knime_snapshots/
+|   |-- original/k2pweb/
+|   |-- processed/knime_snapshots/
+|   `-- processed/k2pweb/
 |-- scripts/
 |   |-- knime_source/
-|   `-- k2p/
+|   `-- k2pweb/
 `-- notes/
 ```

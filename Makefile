@@ -17,6 +17,10 @@ SNAPSHOT_ID ?= date-$(SNAPSHOT_DATE)
 KNIME_SNAPSHOT_ROOT ?= data/original/knime_snapshots
 KNIME_SNAPSHOT_OUT ?= $(KNIME_SNAPSHOT_ROOT)/$(SNAPSHOT_DATE)
 KNIME_SNAPSHOT_SUMMARY ?= data/processed/knime_snapshots/knime_node_snapshot_summary.csv
+DEPRECATED_FACTORY_REGISTRY ?= data/processed/k2pweb/deprecated_node_factory_registry.csv
+K2PWEB_FACTORIES ?= data/original/k2pweb/factories.csv
+K2PWEB_JOIN_AUDIT ?= data/processed/k2pweb/k2pweb_factory_join_audit.csv
+K2PWEB_USAGE_SUMMARY ?= data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv
 SNAPSHOT_DATES ?= 2018-04-03 2019-01-01 2019-12-05 2020-01-01 2021-01-01 2022-01-01 2023-01-01 2023-02-22 2024-01-01 2025-01-01 2026-01-01 2026-03-03 2026-06-28
 
 .PHONY: help
@@ -69,6 +73,18 @@ knime-snapshot-summary: ## Build the processed cross-snapshot node summary.
 	  "$(KNIME_SNAPSHOT_ROOT)" \
 	  --out "$(KNIME_SNAPSHOT_SUMMARY)"
 
+.PHONY: deprecated-node-usage
+deprecated-node-usage: ## Build the deprecated-factory registry and exact k2pweb join.
+	$(PYTHON) scripts/k2pweb/build_deprecated_node_usage.py \
+	  "$(KNIME_SNAPSHOT_ROOT)/$(SNAPSHOT_DATE)/plugin_nodes.csv" \
+	  "$(K2PWEB_FACTORIES)" \
+	  --registry-out "$(DEPRECATED_FACTORY_REGISTRY)" \
+	  --join-audit-out "$(K2PWEB_JOIN_AUDIT)" \
+	  --summary-out "$(K2PWEB_USAGE_SUMMARY)" \
+	  --observation-start "2026-03-25" \
+	  --observation-end "2026-07-15" \
+	  --export-date "2026-07-15"
+
 .PHONY: check-json
 check-json: ## Validate the source-mining process description.
 	$(PYTHON) -m json.tool scripts/knime_source/knime_source_mining_chain.json >/dev/null
@@ -78,4 +94,4 @@ test-clone-script: ## Test automatic clone validation without network access.
 	bash scripts/knime_source/test_clone_knime_oss_repos.sh
 
 .PHONY: check
-check: check-json test-clone-script knime-snapshot-summary ## Run local validation and rebuild derived source-mining data.
+check: check-json test-clone-script knime-snapshot-summary deprecated-node-usage ## Run local validation and rebuild derived source-mining data.

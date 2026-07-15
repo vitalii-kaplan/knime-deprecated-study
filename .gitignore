@@ -18,11 +18,9 @@ htmlcov/
 .vscode/
 *~
 
-# Private knime2py/k2pweb inputs must never be committed. Only approved,
+# Private inputs must never be committed. Only approved,
 # anonymized processed outputs belong in the repository.
 data/private/
-data/original/knime2py/
-data/original/k2pweb/
 private/
 
 # Temporary exports and scratch files

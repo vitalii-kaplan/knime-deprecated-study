@@ -1,7 +1,9 @@
 # Methods
 
-This file records how we collect the deprecated-node data in
-`data/processed/knime_snapshots/knime_node_snapshot_summary.csv`.
+This file records how we collect the longitudinal KNIME snapshot data and join
+the resulting deprecated-factory registry to the anonymized k2pweb
+factory-occurrence export. The primary processed outputs are under
+`data/processed/knime_snapshots/` and `data/processed/k2pweb/`.
 
 ## Source Code
 
@@ -588,36 +590,46 @@ Date-based rows represent source-code snapshots near a selected date and should
 be labelled as date-based snapshots in the `snapshot_kind` and `source_basis`
 columns.
 
-## Planned knime2py Evidence Integration
+## k2pweb Evidence Integration
 
 The longitudinal source data describes which nodes KNIME declares deprecated,
-hidden, or subject to compatibility metadata. A second evidence stream will use
-an approved anonymized export from knime2py to measure which node types occur in
-conversion requests and how they relate to translation support.
+hidden, or subject to compatibility metadata. The current second evidence
+stream uses an approved factory-only export from k2pweb to measure which node
+types occur in deduplicated workflows. The export does not contain translation
+support or conversion outcomes.
 
-The knime2py integration has five stages:
+The integration has five stages:
 
-1. Export privacy-reviewed structural records in the private service
-   environment. Assign random study-local workflow identifiers and exclude raw
-   workflows, node settings, paths, URLs, credentials, IP addresses, and stable
-   user or session identifiers.
-2. Define submissions, deduplicated workflows, node occurrences, and distinct
-   node types as separate units. Record the observation window and
-   deduplication rule.
-3. Normalize full KNIME factory-class identifiers and join them exactly to a
-   selected source snapshot or the planned node-level lifecycle table. Preserve
-   unmatched and ambiguous identifiers with explicit join states.
-4. Attach KNIME lifecycle attributes separately from knime2py support and
-   conversion-impact attributes. Unsupported-by-knime2py is not evidence of
-   deprecation in KNIME.
-5. Produce disclosure-reviewed workflow-level and node-occurrence-level
-   aggregates, with provenance for the exporter, join inputs, scripts, and
-   suppression rules.
+1. Export factory occurrences with study-local deduplicated workflow indexes;
+   exclude raw workflows, settings, paths, URLs, credentials, IP addresses, and
+   stable user or session identifiers.
+2. Treat deduplicated workflows, node occurrences, and distinct node types as
+   separate units and record the observation window.
+3. Build a unique deprecated-factory registry from the 2026-06-28 ordinary-node
+   registrations.
+4. Join complete factory-class identifiers exactly and retain unmatched
+   identifiers with explicit join states.
+5. Produce workflow-, occurrence-, and factory-level aggregates with recorded
+   input and classification dates.
 
-The proposed input tables, controlled labels, join rules, metrics, and privacy
-requirements are specified in `scripts/k2p/README.md`. No knime2py results should be
-reported as empirical findings until an export exists and its units, join
-coverage, and deduplication method have been validated.
+The executable analysis is
+`scripts/k2pweb/build_deprecated_node_usage.py`. It writes:
+
+- `data/processed/k2pweb/deprecated_node_factory_registry.csv`;
+- `data/processed/k2pweb/k2pweb_factory_join_audit.csv`; and
+- `data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv`.
+
+The current exact join matches 146 of 160 factory classes and 2549 of 2745
+occurrences. It identifies deprecated factories in 21 of 62 workflows and in
+294 node occurrences. Fourteen factory classes remain unmatched and are not
+assigned a deprecation state.
+
+The input tables, controlled labels, join rules, metrics, and privacy
+requirements are specified in `scripts/k2pweb/README.md`. The current
+factory-occurrence export supports workflow-, occurrence-, and factory-level
+deprecation prevalence after exact matching. Translation-support and
+conversion-outcome results remain out of scope until those fields are supplied
+and validated.
 
 ## Reproducibility Notes And Limitations
 
@@ -633,6 +645,10 @@ The retained files needed to audit the current results are:
 
 - `data/processed/knime_snapshots/knime_oss_repositories.csv`
 - `data/processed/knime_snapshots/knime_node_snapshot_summary.csv`
+- `data/processed/k2pweb/deprecated_node_factory_registry.csv`
+- `data/processed/k2pweb/k2pweb_factory_join_audit.csv`
+- `data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv`
+- `data/original/k2pweb/factories.csv`
 - `data/original/knime_snapshots/<snapshot-date>/logs/checkout_<snapshot-date>.csv`
 - `data/original/knime_snapshots/<snapshot-date>/plugin_nodes.csv`
 - `data/original/knime_snapshots/<snapshot-date>/node_descriptions.csv`
@@ -652,11 +668,13 @@ Important limitations for the study:
   had no commit at or before the target date.
 - The metadata extraction measures declared node status in source files. It
   does not test whether workflows execute successfully in KNIME.
+- Ordinary-node and node-set registrations are currently extracted from
+  `plugin.xml`; extension contributions in `fragment.xml` are not yet included.
 - Deprecated, hidden, removed, and migrated nodes are related but distinct
   compatibility states and should not be collapsed into a single category.
 - Transition counts depend on metadata identity keys. They may undercount or
   overcount lifecycle events when factory-class names are refactored.
-- Future knime2py observations will represent a self-selected population of
+- The current k2pweb observations represent a self-selected population of
   conversion requests, not all KNIME workflows.
 - Submission-level associations between deprecation and conversion outcomes do
   not establish that deprecation caused a failure.

@@ -66,7 +66,8 @@ extracts:
 - `NodeMigrationRule` contributions.
 
 The parser excludes repository-control and generated directories such as
-`.git`, `target`, `bin`, and `.metadata`.
+`.git`, `target`, `bin`, and `.metadata`. The current registration pass reads
+`plugin.xml`; it does not yet collect Eclipse contributions from `fragment.xml`.
 
 ### `build_knime_node_snapshot_summary.py`
 
@@ -158,4 +159,6 @@ data/processed/knime_snapshots/knime_node_snapshot_summary.csv
 - Date-based source states are not exact binary KNIME releases.
 - Repository metadata does not establish that a workflow imports, executes, or
   fails at runtime.
+- Ordinary-node and node-set counts currently cover `plugin.xml` registrations,
+  not `fragment.xml` contributions.
 - Unsupported-by-knime2py is separate from deprecated-in-KNIME.

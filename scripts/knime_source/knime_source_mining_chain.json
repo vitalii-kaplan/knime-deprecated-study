@@ -1,6 +1,6 @@
 {
   "name": "KNIME source mining script chain",
-  "purpose": "Formal workflow index for KNIME source-repository mining, from local OSS repository cloning through cross-snapshot node metadata summaries.",
+  "purpose": "Formal workflow index for KNIME source-repository mining, from local OSS repository cloning through cross-snapshot summaries, a deprecated-factory registry, and the exact k2pweb usage join.",
   "updated_at": "2026-07-15",
   "handoff_terms": {
     "automatic": "The next step consumes files written by this step without required manual editing.",
@@ -90,10 +90,38 @@
       ],
       "handoff_to_next": "automatic",
       "notes": "Builds derived longitudinal counts and transition approximations across snapshot directories."
+    },
+    {
+      "step": 5,
+      "name": "Build deprecated-node factory registry and k2pweb usage join",
+      "script": "scripts/k2pweb/build_deprecated_node_usage.py",
+      "interpreter": "python3",
+      "make_target": "deprecated-node-usage",
+      "network_required": false,
+      "input": [
+        "data/original/knime_snapshots/2026-06-28/plugin_nodes.csv",
+        "data/original/k2pweb/factories.csv"
+      ],
+      "output": [
+        "data/processed/k2pweb/deprecated_node_factory_registry.csv",
+        "data/processed/k2pweb/k2pweb_factory_join_audit.csv",
+        "data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv"
+      ],
+      "automatic_validation": [
+        "Require one KNIME classification snapshot and the expected source and usage columns.",
+        "Aggregate duplicate deprecated registrations into unique full factory classes while retaining registration provenance.",
+        "Join k2pweb factories only by exact full factory-class identity and preserve unmatched identifiers.",
+        "Report workflow-, occurrence-, and node-type-level measurements separately."
+      ],
+      "handoff_to_next": "automatic",
+      "notes": "Classifies k2pweb usage against the 2026-06-28 source snapshot; deprecation is a metadata state, not evidence of runtime failure."
     }
   ],
   "final_outputs": [
-    "data/processed/knime_snapshots/knime_node_snapshot_summary.csv"
+    "data/processed/knime_snapshots/knime_node_snapshot_summary.csv",
+    "data/processed/k2pweb/deprecated_node_factory_registry.csv",
+    "data/processed/k2pweb/k2pweb_factory_join_audit.csv",
+    "data/processed/k2pweb/k2pweb_deprecated_node_usage_summary.csv"
   ],
   "out_of_scope_for_current_scripts": [
     "Fully automatic KNIME workflow execution and repair",

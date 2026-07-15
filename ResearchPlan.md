@@ -71,35 +71,33 @@ The paper can combine two complementary data sources.
      machine learning, visualization, scripting, database, chemistry, and
      workflow control.
 
-2. knime2py request evidence:
-   - validate the currently estimated volume of approximately 2000
-     workflow-node observations before reporting an exact count;
-   - count how often deprecated nodes appear;
-   - identify which deprecated nodes users still use in practice;
-   - measure workflow-level exposure: percentage of workflows containing at
-     least one deprecated node, number of deprecated nodes per workflow, and
-     concentration by node family;
-   - compare deprecated-node frequency with unsupported-node frequency in
-     `knime2py`.
+2. k2pweb request evidence:
+   - use the approved export of 62 deduplicated workflows, 2745 node
+     occurrences, and 160 factory classes;
+   - join complete factory classes exactly to the selected KNIME snapshot;
+   - report join coverage and retain unresolved identifiers;
+   - measure workflow- and occurrence-level deprecated-node exposure; and
+   - defer comparisons with translation support or conversion outcomes until
+     those fields are available.
 
-The result should be reported as workflow-level and node-occurrence-level
-statistics. A count of about 2000 node observations is useful, but reviewers
-will ask how many distinct workflows, submissions, users or sessions, and
-whether repeated submissions bias the counts.
+The result is reported at workflow, node-occurrence, and distinct-factory
+levels. These denominators must remain separate; no user count is inferred from
+the workflow indexes.
 
-## knime2py Data Source
+## k2pweb Data Source
 
-knime2py should be treated as a structured empirical source, not simply as a
-log file. Before analysis, define and verify the unit of every record:
+k2pweb should be treated as a structured empirical source, not simply as a log
+file. Before analysis, define and verify the unit of every record:
 submission, deduplicated workflow, node occurrence, or distinct node type.
 Retries and repeated submissions can otherwise inflate prevalence estimates.
 
 The repository should receive only an approved anonymized export or aggregate
 tables. Raw k2pweb/knime2py logs, uploaded workflows, node settings, paths,
 URLs, credentials, IP addresses, and stable user or session identifiers must
-remain outside the project. The export should use random study-local workflow
-identifiers and record its observation window, exporter version, filter rules,
-and deduplication method.
+remain outside the project. The current export uses study-local workflow
+indexes and records its observation window. Its exporter version and upstream
+deduplication implementation were not supplied and remain provenance
+limitations.
 
 The preferred node identifier is the complete KNIME factory class. Join it
 exactly to the repository-mined lifecycle data and record join coverage. Keep
@@ -107,7 +105,7 @@ unmatched and ambiguous identifiers rather than silently dropping them. A
 known mapper or migration rule may justify an explicit alias, but suffix or
 partial-string matching is not sufficient evidence of node identity.
 
-At minimum, the knime2py analysis should report:
+At minimum, a richer future k2pweb analysis should report:
 
 - submissions, deduplicated workflows, node occurrences, and node types as
   separate counts;
@@ -121,7 +119,7 @@ At minimum, the knime2py analysis should report:
 
 These comparisons are descriptive. They do not prove that deprecation caused a
 conversion failure unless error-level or controlled evidence isolates the node.
-The full proposed data contract is recorded in `scripts/k2p/README.md`.
+The full proposed data contract is recorded in `scripts/k2pweb/README.md`.
 
 ## Stronger Contribution
 
@@ -222,9 +220,9 @@ Before collecting data, define a table schema so the analysis is auditable:
 - `migration_status`
 - `notes`
 
-Use "approximately 2000 workflow-node observations" unless the exact unit is
-known. Do not describe them as "2000 workflows" unless they are distinct
-workflow submissions.
+For the current export, report the verified units: 62 deduplicated workflows,
+2745 node occurrences, and 160 distinct factory classes. Do not describe node
+occurrences as workflows, submissions, sessions, or users.
 
 ## Cautions
 
@@ -517,8 +515,12 @@ Selected source-date anchors are:
 | `2026-06-28` | Final retained source-date snapshot | 1506 | 502 | 33.33% |
 
 These are metadata-level results. They show declared legacy surface, not
-workflow execution failure. The knime2py evidence stream is specified but no
-approved empirical export is currently included.
+workflow execution failure. An approved factory-only k2pweb export is now
+included for 62 deduplicated workflows observed from 2026-03-25 through
+2026-07-15. Its exact join to the 2026-06-28 snapshot provides usage evidence,
+but no translation-support or conversion-outcome fields. The join matches 146
+of 160 observed factory classes and identifies deprecated factories in 21
+workflows and 294 of 2745 node occurrences.
 
 ## Next Work Packages
 
@@ -554,13 +556,16 @@ Inspect representative examples of:
 - inconsistent extension and description markers; and
 - a deprecated dynamic node set.
 
-### knime2py Integration
+### k2pweb Extensions
 
-Validate the anonymized export, counting units, deduplication method, exact
-factory-class join coverage, unresolved identifiers, disclosure controls, and
-conversion-impact labels specified in `scripts/k2p/README.md`. Report workflow-
-and occurrence-level results separately, and keep translation support distinct
-from KNIME lifecycle status.
+The factory-only export, counting units, exact join, and unresolved identifiers
+are now retained under `data/original/k2pweb/` and
+`data/processed/k2pweb/`. Next, investigate unresolved identifiers against
+dynamic node sets, removed registrations, and extension-distribution
+boundaries. Any richer export should add translation-support and
+conversion-outcome fields using the controlled labels in
+`scripts/k2pweb/README.md`, while continuing to report workflow and occurrence
+units separately.
 
 ## Current Judgment
 
