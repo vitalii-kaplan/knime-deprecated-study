@@ -1,0 +1,371 @@
+\documentclass[runningheads]{llncs}
+
+\usepackage[T1]{fontenc}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{url}
+
+\newcommand{\twolinecol}[2]{\texttt{#1}\newline\texttt{#2}}
+
+\title{Deprecated Nodes in KNIME Workflows:\
+A Longitudinal Repository-Mining Study}
+\titlerunning{Deprecated Nodes in KNIME Workflows}
+
+\author{Vitalii Kaplan\orcidID{0009-0009-8181-2863}}
+\authorrunning{V. Kaplan}
+\institute{\email{2333275007@alu.istinye.edu.tr}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Visual workflows depend on platform components whose lifecycle changes over
+time. This paper studies node deprecation in KNIME as a measurable maintenance,
+translation, and long-term reproducibility risk. We reconstruct 13 source-date
+snapshots of the public \texttt{knime-oss} repositories between April 2018 and
+June 2026 and parse structured Eclipse extension metadata, node descriptions,
+factory-class mappings, and migration rules. Deprecated ordinary nodes increase
+from 193 of 1301 registered nodes (14.83\%) in the 2018 source baseline to 502
+of 1506 (33.33\%) in the June 2026 snapshot. Adjacent-snapshot transitions show
+that deprecation changes occur in bursts rather than at a constant rate. These
+results do not imply that deprecated nodes are broken or that workflows using
+them cannot execute. They identify a growing legacy surface whose continued use
+depends on backward compatibility, extension availability, and migration
+support. The repository analysis provides the platform-side foundation for a
+planned second stage using anonymized knime2py observations to measure which
+deprecated nodes still occur in real conversion requests.
+
+\keywords{KNIME \and Deprecated nodes \and Workflow reproducibility \and
+Software evolution \and Repository mining}
+\end{abstract}
+
+\section{Introduction}
+
+KNIME is an open-source platform in which data-analysis workflows are assembled
+from connected processing nodes \cite{Berthold2009KNIME,KNIMEUserGuide2026}.
+The workflow representation stores node identities and configuration alongside
+graph structure, but the ability to reuse an older workflow also depends on the
+lifecycle of the referenced nodes and extensions. A node may remain loadable
+after it disappears from the ordinary authoring interface, be mapped to a newer
+implementation, require a migration rule, or eventually depend on an extension
+that is difficult to recover.
+
+KNIME explicitly represents node deprecation in its extension metadata. The
+official node schema describes deprecated nodes as hidden from the node
+repository while still being loaded in existing workflows
+\cite{KNIMEWorkbenchNodeSchema2026}. Deprecation therefore does not mean
+immediate failure. It indicates that a workflow depends on a legacy component
+outside the recommended authoring surface. We treat this state as a
+compatibility-risk marker whose interpretation requires separate evidence about
+hidden nodes, removed identities, factory-class mappings, migration rules, and
+runtime behavior.
+
+This paper addresses two questions:
+
+\begin{enumerate}
+\item How has declared KNIME node deprecation changed across public source
+snapshots?
+\item What adjacent-snapshot node additions, removals, and status transitions
+accompany that change?
+\end{enumerate}
+
+The contribution is a reproducible structured-XML mining method, retained
+per-snapshot evidence, and a longitudinal description of KNIME node metadata
+from 2018 to 2026. A planned extension will join this platform-side evidence to
+privacy-preserving aggregate observations from knime2py and k2pweb. That second
+stage will measure practical exposure without treating
+unsupported-by-knime2py as equivalent to deprecated-in-KNIME.
+
+\section{Literature Review}
+
+KNIME has been presented as an extensible visual data-analysis environment
+since its early platform description \cite{Berthold2009KNIME}. Its extension
+model allows additional functionality to be installed from update sites
+\cite{KNIMEExtensions2026}. This extensibility supports a broad analytical
+ecosystem, but it also means that persisted workflows depend on node factories,
+extension availability, and platform compatibility metadata. Recent work has
+used KNIME workflows to support replicable and reproducible research, showing
+the importance of maintaining their executable structure over time
+\cite{Fu2025GIScienceKNIME}.
+
+The KNIME source schemas distinguish several related mechanisms. Ordinary node
+registrations and dynamic node sets can be marked deprecated. Hidden nodes are
+also excluded from normal repository presentation, but hidden status does not
+carry the same deprecation meaning. Separately, KNIME defines extension points
+for mapping old persisted factory-class names to new implementations and for
+registering workflow-node migration rules
+\cite{KNIMECoreClassMapperSchema2026,KNIMEMigrationRuleSchema2026}. These
+mechanisms support compatibility, but neither a mapper nor a migration rule is
+itself evidence that a node is deprecated.
+
+The resulting lifecycle states must not be collapsed. A deprecated node may
+still load; a hidden node need not be deprecated; a removed factory class may
+have a mapper; and a node unsupported by a translation tool may remain current
+in KNIME. The present study therefore measures declared metadata states and
+transitions rather than inferring workflow failure from source labels.
+
+\section{Methods}
+
+We mine the public \texttt{knime-oss} repositories using date-based source
+snapshots. The local clone contains 91 immediate Git repositories. The mining
+process includes 90 non-hidden repositories and excludes the organization-level
+\texttt{.github} repository. For each target date, every included repository is
+checked out to its latest commit at or before 23:59:59 on that date. The
+checkout script is stored as:
+\begin{quote}
+\path{scripts/knime_source/}\\
+\path{checkout_knime_oss_by_date.sh}
+\end{quote}
+It writes a manifest containing the repository, checkout status, target date,
+selected commit and commit date, and previous head.
+
+For each reconstructed snapshot, \path{scripts/knime_source/collect_knime_node_snapshot.py}
+parses structured XML rather than searching source text. It skips
+\texttt{.git}, \texttt{target}, \texttt{bin}, and \texttt{.metadata}
+directories. Boolean XML attributes are true only when their values are
+case-insensitively equal to \texttt{true}.
+
+The primary ordinary-node deprecation marker is
+\texttt{deprecated="true"} under the Eclipse extension point:
+
+\begin{quote}
+\texttt{org.knime.workbench.repository.nodes}
+\end{quote}
+
+Dynamic node sets are collected separately from:
+
+\begin{quote}
+\texttt{org.knime.workbench.repository.nodesets}
+\end{quote}
+
+Files ending in \texttt{NodeFactory.xml} and rooted at \texttt{knimeNode} are
+parsed as a secondary description-level source. Ordinary registrations whose
+hidden attribute is true are counted separately from deprecated registrations.
+The extractor also records contributions to
+\path{org.knime.core.NodeFactoryClassMapper} and
+\path{org.knime.workflow.migration.NodeMigrationRule}. These records describe
+compatibility mechanisms and are not counted as deprecation markers.
+
+The per-snapshot outputs are:
+
+\begin{itemize}
+\item \path{logs/checkout_<snapshot-date>.csv};
+\item \path{plugin_nodes.csv};
+\item \path{node_descriptions.csv};
+\item \path{factory_class_mappers.csv};
+\item \path{migration_rules.csv}; and
+\item \path{summary.csv}.
+\end{itemize}
+
+The summary builder is stored under \path{scripts/knime_source/} as
+\path{build_knime_node_snapshot_summary.py}. It orders snapshots and calculates
+aggregate counts. It also compares adjacent snapshots. A non-empty factory
+class is used as the node identity. Registrations without one use the fallback
+key \path{plugin_xml:element:category_path}. Added and removed identities are
+set differences. Deprecation, hidden-status, and category transitions are
+calculated only for identities present in both adjacent snapshots. These are
+metadata-level approximations because refactoring a factory class can change
+the observed identity.
+
+\section{Data}
+
+The retained dataset contains 13 source-date snapshots:
+
+\begin{quote}
+2018-04-03, 2019-01-01, 2019-12-05, 2020-01-01, 2021-01-01,
+2022-01-01, 2023-01-01, 2023-02-22, 2024-01-01, 2025-01-01,
+2026-01-01, 2026-03-03, and 2026-06-28.
+\end{quote}
+
+The dates combine annual checkpoints with major-version source-date anchors.
+The earliest locally available product-tag context is KNIME Analytics Platform
+3.5.3 on 2018-04-03. Later anchors include 4.1.0 on 2019-12-05, 5.0.0 on
+2023-02-22, and 5.11.0 on 2026-03-03. These rows are source states near release
+dates, not reconstructed binary distributions.
+
+Original evidence is stored in the snapshot directories under
+\path{data/original/knime_snapshots/}. The processed table is:
+\begin{quote}
+\path{data/processed/knime_snapshots/}\\
+\path{knime_node_snapshot_summary.csv}
+\end{quote}
+Its main measurement groups are shown in Table~\ref{tab:summary-columns}.
+
+\begin{table}
+\centering
+\caption{Main measurement groups in the processed snapshot summary.}
+\label{tab:summary-columns}
+\small
+\begin{tabular}{p{0.31\textwidth}p{0.60\textwidth}}
+\toprule
+Group & Measurements \\
+\midrule
+Snapshot provenance & Identifier, date, source basis, version context,
+processed and skipped repositories \\
+Node registrations & Ordinary nodes, dynamic node sets, total registrations,
+and unique factory classes \\
+Deprecation & Deprecated ordinary nodes and node sets, unique deprecated factory
+classes, and deprecated share \\
+Related states & Hidden nodes, nodes both deprecated and hidden, and deprecated
+node descriptions \\
+Compatibility metadata & Factory-class mapper and migration-rule contribution
+counts \\
+Adjacent transitions & Added, removed, newly deprecated, no longer deprecated,
+newly hidden, no longer hidden, and category-changed identities \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The number of repositories available at early dates is smaller because some
+repositories did not yet exist. Checkout manifests preserve this changing
+coverage. The processed table is derived evidence; the per-record XML
+extractions and checkout manifests remain authoritative for auditing individual
+counts.
+
+No knime2py request dataset is included in the current results. Its proposed
+data contract separates submissions, deduplicated workflows, node occurrences,
+and node types. Any future export must be anonymized before entering the
+repository, joined to KNIME metadata using exact full factory-class identifiers,
+and accompanied by join coverage and deduplication provenance.
+
+\section{Results}
+
+At the earliest source baseline, 2018-04-03, 193 of 1301 registered ordinary
+nodes were marked deprecated, or 14.83\% (Table~\ref{tab:selected-snapshots}).
+At the KNIME Analytics Platform 5.0.0 source-date anchor on 2023-02-22, the
+count is 433 of 1442 nodes, or 30.03\%. The final 2026-06-28 snapshot contains
+502 deprecated ordinary nodes out of 1506, or 33.33\%. The declared deprecated
+share therefore approximately doubles between the earliest and final retained
+snapshots.
+
+\begin{table}
+\centering
+\caption{Selected KNIME repository-mining snapshots.}
+\label{tab:selected-snapshots}
+\scriptsize
+\begin{tabular}{lp{0.34\textwidth}rrr}
+\toprule
+Date & Version context & Nodes & Deprecated & Share \\
+\midrule
+2018-04-03 & Analytics Platform 3.5.3 source-date anchor & 1301 & 193 & 14.83\% \\
+2019-12-05 & Analytics Platform 4.1.0 source-date anchor & 1191 & 227 & 19.06\% \\
+2023-02-22 & Analytics Platform 5.0.0 source-date anchor & 1442 & 433 & 30.03\% \\
+2026-03-03 & Analytics Platform 5.11.0 source-date anchor & 1503 & 503 & 33.47\% \\
+2026-06-28 & Current local source-date snapshot & 1506 & 502 & 33.33\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Annual checkpoints show the same broad increase while making the changing
+repository coverage explicit (Table~\ref{tab:annual-snapshots}). Repositories
+with a valid checkout rise from 44 in 2018 to 90 in 2026, so raw early and late
+node totals do not describe a fixed source corpus. Deprecated share is less
+sensitive to this difference but can still be affected by repositories entering
+the corpus. Hidden ordinary nodes remain much less frequent, increasing from 2
+in the 2018 checkpoint to 24 in 2026. Deprecated dynamic node sets appear from
+2020 onward and remain at 2 through the 2026 annual checkpoint.
+
+\begin{table}
+\centering
+\caption{Annual KNIME repository-mining checkpoint statistics.}
+\label{tab:annual-snapshots}
+\scriptsize
+\begin{tabular}{llrrrrrr}
+\toprule
+Year & Date & Repos & Nodes & Deprecated & Nodesets & Hidden & Share \\
+\midrule
+2018 & 2018-04-03 & 44 & 1301 & 193 & 0 & 2 & 14.83\% \\
+2019 & 2019-01-01 & 45 & 1500 & 248 & 0 & 2 & 16.53\% \\
+2020 & 2020-01-01 & 54 & 1200 & 228 & 2 & 2 & 19.00\% \\
+2021 & 2021-01-01 & 60 & 1366 & 398 & 2 & 5 & 29.14\% \\
+2022 & 2022-01-01 & 67 & 1424 & 386 & 2 & 8 & 27.11\% \\
+2023 & 2023-01-01 & 72 & 1428 & 433 & 2 & 10 & 30.32\% \\
+2024 & 2024-01-01 & 80 & 1434 & 436 & 2 & 9 & 30.40\% \\
+2025 & 2025-01-01 & 86 & 1488 & 446 & 2 & 23 & 29.97\% \\
+2026 & 2026-01-01 & 90 & 1509 & 505 & 2 & 24 & 33.47\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The transition results show bursts rather than a constant deprecation rate
+(Table~\ref{tab:annual-transitions}). The largest annual counts of newly
+deprecated common node identities occur in 2021, 2023, and 2026: 80, 61, and
+60, respectively. The 2022 checkpoint is the only annual row with a substantial
+count of common identities no longer marked deprecated (29). Category-path
+changes are concentrated in 2021 and 2023.
+
+\begin{table}
+\centering
+\caption{Annual adjacent-snapshot transition statistics.}
+\label{tab:annual-transitions}
+\scriptsize
+\begin{tabular}{lrrrrr}
+\toprule
+Year & Added & Removed & Newly deprecated & No longer deprecated & Category changed \\
+\midrule
+2018 & -- & -- & -- & -- & -- \\
+2019 & 194 & 22 & 16 & 0 & 6 \\
+2020 & 11 & 0 & 0 & 0 & 4 \\
+2021 & 140 & 1 & 80 & 0 & 111 \\
+2022 & 69 & 6 & 17 & 29 & 17 \\
+2023 & 56 & 4 & 61 & 0 & 67 \\
+2024 & 17 & 7 & 4 & 0 & 3 \\
+2025 & 36 & 0 & 9 & 0 & 1 \\
+2026 & 52 & 2 & 60 & 0 & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These results measure declared source metadata, not workflow execution. They do
+not establish how often deprecated nodes occur in user workflows, whether a
+particular deprecated node still runs, or whether deprecation caused a
+translation failure. They establish that deprecation is a substantial and
+changing part of the public KNIME node surface and identify the snapshots and
+node records needed for deeper lifecycle analysis.
+
+\section{Discussion}
+
+The main result is a growing declared legacy surface. Approximately one third
+of ordinary registered nodes are deprecated in the latest retained snapshot,
+compared with about one seventh at the earliest source baseline. This change is
+not monotonic at every checkpoint, and it occurs alongside changing repository
+coverage, node additions, removals, category changes, and compatibility
+metadata. The per-snapshot records are therefore more informative than a single
+current count.
+
+Deprecation should be interpreted cautiously. KNIME deliberately loads
+deprecated nodes in existing workflows, so the marker supports backward
+compatibility as well as signalling risk. A deprecated workflow node may remain
+fully executable. Conversely, a workflow may fail because of a missing
+extension, input, configuration, or external dependency even when none of its
+nodes is deprecated. Repository metadata can identify candidates for
+compatibility inspection, but runtime claims require workflow-level testing.
+
+The next repository-mining step is a node-level lifecycle table recording first
+and last appearance, first deprecation, hidden status, removal from later
+snapshots, category changes, and links to factory-class mapper or migration-rule
+evidence. Manual validation should cover representative deprecated, hidden,
+removed, migrated, and inconsistent records. This will distinguish persistent
+low-risk legacy nodes from nodes with unclear migration paths.
+
+A complementary demand-side analysis will use knime2py and k2pweb
+\cite{KaplanKnime2py2026,K2PWeb2026}. A privacy-reviewed export can measure
+which deprecated node types occur in conversion requests, their workflow-level
+and occurrence-level prevalence, and their relationship to translation support.
+Raw logs, uploaded workflows, settings, paths, credentials, IP addresses, and
+stable user identifiers must remain outside the research repository. The
+analysis must also separate submissions from deduplicated workflows and exact
+factory-class matches from unresolved identifiers.
+
+Finally, an association between deprecated-node presence and conversion failure
+would remain descriptive unless the failure can be isolated to the affected
+node. The stronger practical contribution is an evidence-backed advisory layer:
+detect deprecated nodes, report their source-snapshot status, identify explicit
+mapper or migration evidence, and warn when translation or repair requires
+manual intervention.
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
