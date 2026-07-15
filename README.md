@@ -1,4 +1,4 @@
-# Deprecated Nodes in KNIME Workflows
+# Deprecated KNIME Nodes in Source Repositories and User Workflows
 
 This repository contains the data, scripts, and manuscript for an empirical
 study of deprecated KNIME nodes as a maintenance, translation, and long-term

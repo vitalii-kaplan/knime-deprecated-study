@@ -42,15 +42,9 @@ This combination is stronger than either dataset alone. Repository mining
 shows the lifecycle of KNIME components. k2pweb shows practical impact that
 only this project can currently observe.
 
-Possible title:
+Current title:
 
-> Deprecated Nodes in Visual Data-Science Workflows: A Repository-Mining and
-> Usage-Log Study of KNIME
-
-Alternative title:
-
-> How Deprecated Workflow Components Affect Reuse and Translation: Evidence
-> from KNIME and k2pweb
+> Deprecated KNIME Nodes in Source Repositories and User Workflows
 
 The key claim should be careful:
 

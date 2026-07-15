@@ -8,9 +8,8 @@
 
 \newcommand{\twolinecol}[2]{\texttt{#1}\newline\texttt{#2}}
 
-\title{Deprecated Nodes in KNIME Workflows:\
-A Longitudinal Repository-Mining Study}
-\titlerunning{Deprecated Nodes in KNIME Workflows}
+\title{Deprecated KNIME Nodes in Source Repositories and User Workflows}
+\titlerunning{Deprecated KNIME Nodes in Repositories and Workflows}
 
 \author{Vitalii Kaplan\orcidID{0009-0009-8181-2863}}
 \authorrunning{V. Kaplan}
@@ -20,21 +19,24 @@ A Longitudinal Repository-Mining Study}
 \maketitle
 
 \begin{abstract}
-Visual workflows depend on platform components whose lifecycle changes over
-time. This paper studies node deprecation in KNIME as a measurable maintenance,
-translation, and long-term reproducibility risk. We reconstruct 13 source-date
-snapshots of the public \texttt{knime-oss} repositories between April 2018 and
-June 2026 and parse structured Eclipse extension metadata, node descriptions,
-factory-class mappings, and migration rules. Deprecated ordinary nodes increase
-from 193 of 1301 registered nodes (14.83\%) in the 2018 source baseline to 502
-of 1506 (33.33\%) in the June 2026 snapshot. Adjacent-snapshot transitions show
-that deprecation changes occur in bursts rather than at a constant rate. These
-results do not imply that deprecated nodes are broken or that workflows using
-them cannot execute. They identify a growing legacy surface whose continued use
-depends on backward compatibility, extension availability, and migration
-support. An exact factory-class join to 62 deduplicated k2pweb workflows finds
-deprecated nodes in 21 workflows (33.87\%) and 294 of 2745 node occurrences
-(10.71\%).
+Visual workflows support scientific data analysis, but persisted workflows
+depend on platform components whose lifecycle changes over time. When studies
+do not preserve executable workflows or report platform versions, deprecated
+components can complicate later reuse and reproduction. This paper quantifies
+how common deprecated nodes are in public KNIME source repositories and in
+workflows uploaded by users for KNIME-to-Python conversion. We reconstruct 13
+source-date snapshots of the public \texttt{knime-oss} repositories between
+April 2018 and June 2026, parse structured extension and compatibility metadata,
+build a registry of deprecated factory classes, and join exact factory
+identifiers to 2745 node occurrences in 62 k2pweb workflows uploaded between
+2026-03-25 and 2026-07-15. Deprecated ordinary-node registrations increase from
+193 of 1301 (14.83\%) in the 2018 baseline to 502 of 1506 (33.33\%) in the
+latest snapshot, where they represent 487 distinct factory classes. The join
+matches 146 of 160 observed factory classes and 2549 of 2745 occurrences.
+Twenty-one distinct deprecated factory classes account for 294 occurrences
+(10.71\%) and appear in 21 workflows (33.87\%). These results show that
+deprecated nodes are not a marginal phenomenon on either the platform or usage
+side. 
 
 \keywords{KNIME \and Deprecated nodes \and Workflow reproducibility \and
 Software evolution \and Repository mining}
@@ -42,41 +44,84 @@ Software evolution \and Repository mining}
 
 \section{Introduction}
 
-KNIME is an open-source platform in which data-analysis workflows are assembled
-from connected processing nodes \cite{Berthold2009KNIME,KNIMEUserGuide2026}.
-The workflow representation stores node identities and configuration alongside
-graph structure, but the ability to reuse an older workflow also depends on the
-lifecycle of the referenced nodes and extensions. A node may remain loadable
-after it disappears from the ordinary authoring interface, be mapped to a newer
+Visual workflows are widely used to construct scientific data analyses because
+they express multi-step procedures as inspectable graphs of connected
+operations. When the executable workflow and its software context are
+preserved, this representation can support inspection, reuse, and
+reproducibility across scientific domains
+\cite{Fu2025GIScienceKNIME,KaplanKNIMEWorkflowAudit2026}.
+
+KNIME is one of the most widely used open-source visual workflow platforms in
+scientific research. It represents data-analysis workflows as connected
+processing nodes and has supported an extensible ecosystem since its early
+platform description \cite{Berthold2009KNIME,KNIMEUserGuide2026}. Its public
+source history and explicit extension metadata make it a suitable platform for
+studying how visual-workflow components evolve.
+
+Like other actively developed software platforms, KNIME changes over time.
+Components can be replaced, hidden, declared deprecated, or removed as APIs,
+interfaces, and recommended analytical practices evolve. The workflow
+representation stores node identities and configuration alongside graph
+structure, but the ability to reuse an older workflow also depends on the
+lifecycle of those nodes and their extensions. A node may remain loadable after
+it disappears from the ordinary authoring interface, be mapped to a newer
 implementation, require a migration rule, or eventually depend on an extension
 that is difficult to recover.
+
+Scientific studies that use KNIME do not always preserve this software context.
+A reproducibility audit of 100 highly cited KNIME-matching studies found that
+18 reported a KNIME version, 22 reported a downloadable or linked workflow, and
+workflow artifacts or workflow directories were obtained for 18 records
+\cite{KaplanKNIMEWorkflowAudit2026}. Missing workflow artifacts and version
+information make it harder to determine which node implementations a study
+used and whether those components remain available.
 
 KNIME explicitly represents node deprecation in its extension metadata. The
 official node schema describes deprecated nodes as hidden from the node
 repository while still being loaded in existing workflows
-\cite{KNIMEWorkbenchNodeSchema2026}. Deprecation therefore does not mean
-immediate failure. It indicates that a workflow depends on a legacy component
-outside the recommended authoring surface. We treat this state as a
-compatibility-risk marker whose interpretation requires separate evidence about
-hidden nodes, removed identities, factory-class mappings, migration rules, and
-runtime behavior.
+\cite{KNIMEWorkbenchNodeSchema2026}. Because such nodes can remain loadable,
+deprecation does not imply immediate failure; instead, it marks a workflow's
+dependence on a legacy component outside the recommended authoring surface.
+Interpreting this compatibility-risk marker requires both platform-side
+evidence that distinguishes deprecated nodes from hidden nodes, removed
+identities, factory-class mappings, and migration rules, and demand-side
+evidence of whether the affected factory classes still occur in workflows.
 
-This paper addresses three questions:
+The open-source knime2py project and its k2pweb.org interface provide this
+demand-side perspective. knime2py parses KNIME workflows, reconstructs their
+nodes and connections, and generates Python scripts or Jupyter notebooks for
+supported nodes together with machine-readable graph representations
+\cite{KaplanKnime2py2026}. The web service accepts a minimal workflow bundle,
+runs knime2py in an isolated container, and returns the generated code and
+graph outputs \cite{K2PWeb2026}. Because the submitted workflow structures retain
+factory-class identities, they complement the platform metadata with evidence
+of which KNIME node types still occur in practice.
 
-\begin{enumerate}
-\item How has declared KNIME node deprecation changed across public source
-snapshots?
-\item What adjacent-snapshot node additions, removals, and status transitions
-accompany that change?
-\item Which nodes classified as deprecated in the latest retained source
-snapshot occur in the observed k2pweb workflows, and at what prevalence?
-\end{enumerate}
+Bringing these two evidence sources together, this work aims to quantify how
+common deprecated nodes are in public KNIME source repositories and in observed
+user workflows. We examine how declared deprecation changes across source
+snapshots, which additions, removals, and status transitions accompany that
+change, and which nodes classified as deprecated in the latest retained
+snapshot occur in k2pweb workflows.
 
-The contribution is a reproducible structured-XML mining method, retained
-per-snapshot evidence, a longitudinal description of KNIME node metadata from
-2018 to 2026, and an exact-identifier join to privacy-limited k2pweb usage data.
-The demand-side analysis measures practical exposure without treating
-unsupported-by-knime2py as equivalent to deprecated-in-KNIME.
+To answer these questions, we reconstruct 13 source-date snapshots of the
+public \texttt{knime-oss} repositories from 2018 to 2026 and parse structured
+extension metadata for ordinary nodes, dynamic node sets, hidden and deprecated
+states, factory-class mappings, and migration rules. We then build a registry
+of deprecated factory classes from the latest snapshot and join full factory
+identifiers exactly to 2745 node occurrences in 62 workflows that users
+uploaded to k2pweb for conversion from KNIME to Python between 2026-03-25 and
+2026-07-15.
+
+The main contribution of this study is quantitative evidence that deprecated nodes are not a
+marginal phenomenon in KNIME. In the latest source snapshot, 502 of 1506
+ordinary-node registrations are deprecated, representing 487 distinct factory
+classes. In the k2pweb data, 21 distinct deprecated factory classes account for
+294 of 2745 node occurrences and appear in 21 of 62 user-uploaded workflows.
+These platform- and demand-side measurements are supported by a reproducible
+structured-XML mining method, retained per-snapshot evidence, and exact factory-
+class matching that keeps KNIME lifecycle status separate from knime2py
+translation support.
 
 \section{Literature Review}
 
