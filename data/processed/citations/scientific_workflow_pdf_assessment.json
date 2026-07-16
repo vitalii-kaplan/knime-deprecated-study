@@ -1,0 +1,851 @@
+{
+  "schema_version": "1.0",
+  "created_on": "2026-07-16",
+  "updated_on": "2026-07-16",
+  "record_count": 23,
+  "purpose": "Assessment of locally retained scientific-workflow papers as potential citations for the article Deprecated KNIME Nodes in Source Repositories and User Workflows.",
+  "scoring": {
+    "range": "0-100",
+    "meaning": "Higher scores indicate a more direct contribution to the article's framing of component lifecycle change, workflow preservation, reproducibility risk, or KNIME-specific workflow reuse. Scores do not assess general paper quality."
+  },
+  "scope_note": "These papers can support the motivation, literature review, and interpretation. They do not provide evidence for the article's numerical findings about deprecated KNIME nodes.",
+  "records": [
+    {
+      "local_file": "data/articles/A_method_to_mine_workflows_from_provenan.pdf",
+      "citation_key_suggestion": "zeng2011mine",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "A Method to Mine Workflows from Provenance for Assisting Scientific Workflow Composition",
+        "authors": [
+          "Reng Zeng",
+          "Xudong He",
+          "Wil M. P. van der Aalst"
+        ],
+        "year": 2011,
+        "container_title": "Proceedings of the 2011 IEEE World Congress on Services",
+        "event": "Fifth International Workshop on Scientific Workflows (SWF 2011)",
+        "pages": "169-175",
+        "publisher": "IEEE",
+        "doi": "10.1109/SERVICES.2011.55",
+        "isbn": "978-1-4577-0879-4"
+      },
+      "analysis": {
+        "relevance_score": 30,
+        "recommendation": "omit unless a specific statement about workflow evolution or provenance-assisted composition needs support",
+        "findings": [
+          "The paper treats scientific workflows as complex computational compositions whose templates can evolve.",
+          "It mines data and control dependencies from provenance to recommend reusable workflow fragments during composition.",
+          "Its emphasis is workflow construction rather than preservation, component deprecation, platform compatibility, or KNIME."
+        ],
+        "potential_article_use": [
+          "A general statement that workflow templates evolve as researchers continue using them.",
+          "A background statement that provenance can support workflow reuse and composition."
+        ],
+        "suggested_citation_text": "Scientific workflow templates can evolve as researchers continue to use them. Provenance mining can recover data and control dependencies that support workflow composition and reuse.",
+        "limitations_for_this_article": "The connection to deprecated KNIME nodes is indirect and overlaps with provenance literature already cited in the article."
+      },
+      "important_text_citation": {
+        "text": "This paper presents a method based on provenance to mine models for scientific workflows, including data and control dependency.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It concisely identifies the paper's provenance-mining contribution."
+      }
+    },
+    {
+      "local_file": "data/articles/Documentation_and_Visualisation_of_Workf.pdf",
+      "citation_key_suggestion": "willoughby2017documentation",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Documentation and Visualisation of Workflows for Effective Communication, Collaboration and Publication @ Source",
+        "authors": [
+          "Cerys Willoughby",
+          "Jeremy G. Frey"
+        ],
+        "year": 2017,
+        "container_title": "International Journal of Digital Curation",
+        "volume": "12",
+        "issue": "1",
+        "pages": "72-87",
+        "publisher": "University of Edinburgh on behalf of the Digital Curation Centre",
+        "doi": "10.2218/ijdc.v12i1.532",
+        "issn": "1746-8256"
+      },
+      "analysis": {
+        "relevance_score": 92,
+        "recommendation": "recommended",
+        "findings": [
+          "The paper argues that depositing workflow files without sufficient context does not ensure successful reuse.",
+          "It identifies software access, provenance, metadata, annotations, parameters, and associated data as important parts of workflow comprehension and curation.",
+          "It is directly relevant to KNIME because it develops interactive visualisations and curation packages for KNIME workflows."
+        ],
+        "potential_article_use": [
+          "Support the claim that preserving a KNIME workflow artifact alone may be insufficient for later reuse.",
+          "Explain why continued access to the workflow platform and its components matters alongside workflow documentation.",
+          "Strengthen the KNIME-specific reproducibility motivation in the Literature Review."
+        ],
+        "suggested_citation_text": "Storing a workflow without its surrounding context may be insufficient for successful reuse. For KNIME workflows, documentation, parameters, metadata, associated data, and access to suitable software all contribute to later comprehension and reuse.",
+        "limitations_for_this_article": "The paper concerns documentation, visualisation, and curation rather than node deprecation or quantitative lifecycle analysis."
+      },
+      "important_text_citation": {
+        "text": "These have revealed that simply storing workflows in repositories without additional context does not enable workflows to be successfully reused.",
+        "pdf_page": 1,
+        "printed_page": 72,
+        "section": "Abstract",
+        "why_important": "It directly supports the distinction between preserving a workflow file and enabling meaningful reuse."
+      }
+    },
+    {
+      "local_file": "data/articles/Fostering_scientific_workflow_preservati.pdf",
+      "citation_key_suggestion": "belhajjame2011substitute",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Fostering Scientific Workflow Preservation Through Discovery of Substitute Services",
+        "authors": [
+          "Khalid Belhajjame",
+          "Carole Goble",
+          "Stian Soiland-Reyes",
+          "David De Roure"
+        ],
+        "year": 2011,
+        "container_title": "Proceedings of the 2011 IEEE 7th International Conference on e-Science",
+        "event": "2011 IEEE 7th International Conference on e-Science",
+        "pages": "97-104",
+        "publisher": "IEEE",
+        "doi": "10.1109/eScience.2011.22"
+      },
+      "analysis": {
+        "relevance_score": 88,
+        "recommendation": "recommended for the discussion of replacement and migration evidence",
+        "findings": [
+          "The paper presents workflow specifications as scientific knowledge worth preserving after execution.",
+          "It identifies volatility in third-party service operations as a practical obstacle to workflow preservation.",
+          "It investigates the discovery of substitute operations for unavailable workflow services using structural compatibility and execution provenance."
+        ],
+        "potential_article_use": [
+          "Support the argument that component unavailability can threaten preservation even when a workflow specification remains available.",
+          "Provide conceptual precedent for examining KNIME migration rules, factory mappings, and replacement evidence.",
+          "Frame replacement discovery as a preservation response rather than treating deprecation as immediate workflow failure."
+        ],
+        "suggested_citation_text": "Workflow preservation can be impaired by volatile third-party components even when the workflow specification remains available. Discovering compatible substitutes is therefore one possible response to unavailable or obsolete workflow functionality.",
+        "limitations_for_this_article": "The studied components are primarily third-party web services in scientific workflows, not KNIME node factories. The analogy should therefore be stated cautiously."
+      },
+      "important_text_citation": {
+        "text": "The value of a workflow specification does not end once it is enacted.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It succinctly states why workflow specifications and their dependencies deserve preservation analysis."
+      }
+    },
+    {
+      "local_file": "data/articles/Towards_the_Preservation_of_Scientific_W.pdf",
+      "citation_key_suggestion": "deroure2011preservation",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Towards the Preservation of Scientific Workflows",
+        "authors": [
+          "David De Roure",
+          "Khalid Belhajjame",
+          "Paolo Missier",
+          "José Manuel Gómez-Pérez",
+          "Raúl Palma",
+          "José Enrique Ruiz",
+          "Kristina Hettne",
+          "Marco Roos",
+          "Graham Klyne",
+          "Carole Goble"
+        ],
+        "year": 2011,
+        "container_title": "Proceedings of the 8th International Conference on Preservation of Digital Objects (iPRES 2011)",
+        "event": "iPRES 2011",
+        "editors": [
+          "José Borbinha",
+          "Adam Jatowt",
+          "Schubert Foo",
+          "Shigeo Sugimoto",
+          "Christopher Khoo",
+          "Ramanathan Buddharaju"
+        ],
+        "pages": "228-231",
+        "publisher": "National Library Board Singapore and Nanyang Technological University",
+        "doi": null,
+        "repository_identifier": "11353/10.294253"
+      },
+      "analysis": {
+        "relevance_score": 96,
+        "recommendation": "strongly recommended",
+        "findings": [
+          "The paper defines workflow decay as a preservation problem caused when executable workflow steps are vulnerable to external change.",
+          "It explains that third-party changes, obsolete resources, unsupported services, operating-system changes, and infrastructure availability can hinder workflow execution and reproducibility.",
+          "It treats workflows as executable research objects whose dependencies require status evaluation and curation."
+        ],
+        "potential_article_use": [
+          "Provide the clearest conceptual foundation for interpreting deprecated nodes as compatibility-risk markers.",
+          "Support the claim that an unchanged workflow can become harder to execute because its dependent components evolve.",
+          "Connect the article's source-side lifecycle measurements to the broader literature on workflow decay and preservation."
+        ],
+        "suggested_citation_text": "Scientific workflows are vulnerable to workflow decay when resources or components required for execution change outside the workflow itself. Component-lifecycle evidence can therefore identify preservation and reproducibility risks without demonstrating that a workflow has already failed.",
+        "limitations_for_this_article": "The paper discusses scientific workflows and volatile resources broadly; it does not study KNIME deprecation metadata or measure deprecated-node prevalence."
+      },
+      "important_text_citation": {
+        "text": "We describe curation techniques that can be used to avoid the ‘workflow decay’ that occurs when steps of the workflow are vulnerable to external change.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It provides a compact conceptual link between changing platform components and long-term workflow risk."
+      }
+    },
+    {
+      "local_file": "data/articles/Trends_in_Use_of_Scientific_Workflows_In.pdf",
+      "citation_key_suggestion": "littauer2012trends",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Trends in Use of Scientific Workflows: Insights from a Public Repository and Recommendations for Best Practice",
+        "authors": [
+          "Richard Littauer",
+          "Karthik Ram",
+          "Bertram Ludäscher",
+          "William Michener",
+          "Rebecca Koskela"
+        ],
+        "year": 2012,
+        "container_title": "International Journal of Digital Curation",
+        "volume": "7",
+        "issue": "2",
+        "pages": "92-100",
+        "publisher": "UKOLN at the University of Bath",
+        "doi": "10.2218/ijdc.v7i2.232",
+        "issn": "1746-8256"
+      },
+      "analysis": {
+        "relevance_score": 65,
+        "recommendation": "optional for general scientific-workflow background",
+        "findings": [
+          "The paper describes scientific workflows as graphical mechanisms for automating, visualising, and sharing complex data-processing and analysis pipelines.",
+          "It connects workflow provenance and explicit methodology with transparent and reproducible science.",
+          "Its empirical focus is workflow-system use and sharing in the myExperiment repository, not component lifecycle change."
+        ],
+        "potential_article_use": [
+          "Support introductory statements about visual scientific workflows and reproducibility.",
+          "Provide background on public workflow sharing and recommended practices."
+        ],
+        "suggested_citation_text": "Scientific workflow systems help researchers construct, execute, visualise, and share complex computational analyses. Their ability to record methodology and provenance can also support more transparent and reproducible science.",
+        "limitations_for_this_article": "The publication is older, is not KNIME-specific, and offers no evidence about deprecated components. Existing citations may already cover these broad claims."
+      },
+      "important_text_citation": {
+        "text": "Furthermore, many workflows provide mechanisms for tracing provenance and methodologies that foster reproducible science.",
+        "pdf_page": 1,
+        "printed_page": 92,
+        "section": "Abstract",
+        "why_important": "It directly connects workflow mechanisms with reproducibility."
+      }
+    },
+    {
+      "local_file": "data/articles/Accelerating_the_scientific_exploration.pdf",
+      "citation_key_suggestion": "altintas2006accelerating",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Accelerating the Scientific Exploration Process with Scientific Workflows",
+        "authors": ["Ilkay Altintas", "Oscar Barney", "Zhengang Cheng", "Terence Critchlow", "Bertram Ludäscher", "Steve Parker", "Arie Shoshani", "Mladen Vouk"],
+        "year": 2006,
+        "container_title": "Journal of Physics: Conference Series",
+        "volume": "46",
+        "issue": "1",
+        "pages": "468-478",
+        "publisher": "IOP Publishing",
+        "doi": "10.1088/1742-6596/46/1/065"
+      },
+      "analysis": {
+        "relevance_score": 70,
+        "recommendation": "use selectively for workflow-system benefits and component maintenance",
+        "findings": [
+          "The paper describes scientific workflows as structured combinations of data and processes for semi-automated scientific computation.",
+          "It identifies reusability, maintainability of workflows and actors, provenance, version comparison, fault tolerance, and recovery as workflow-system advantages.",
+          "Its examples concern Kepler and large-scale scientific computing rather than KNIME deprecation."
+        ],
+        "potential_article_use": ["Support general claims about visual workflow adoption and benefits.", "Establish that component maintenance and workflow evolution are longstanding workflow-system concerns."],
+        "suggested_citation_text": "Scientific workflow systems structure scientific computations from reusable processes and data dependencies. Their benefits include component maintenance, provenance capture, workflow-version comparison, and failure recovery.",
+        "limitations_for_this_article": "The paper discusses Kepler actors and system capabilities, not deprecated KNIME node factories or user-side prevalence."
+      },
+      "important_text_citation": {
+        "text": "A scientific workflow is the process of combining data and processes into a configurable, structured set of steps.",
+        "pdf_page": 1,
+        "printed_page": 468,
+        "section": "Abstract",
+        "why_important": "It provides a concise definition of a scientific workflow."
+      }
+    },
+    {
+      "local_file": "data/articles/Characterization_of_scientific_workflows.pdf",
+      "citation_key_suggestion": "bharathi2008characterization",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Characterization of Scientific Workflows",
+        "authors": ["Shishir Bharathi", "Ann Chervenak", "Ewa Deelman", "Gaurang Mehta", "Mei-Hui Su", "Karan Vahi"],
+        "year": 2008,
+        "container_title": "2008 Third Workshop on Workflows in Support of Large-Scale Science",
+        "event": "WORKS 2008",
+        "pages": "1-10",
+        "publisher": "IEEE",
+        "doi": "10.1109/WORKS.2008.4723958"
+      },
+      "analysis": {
+        "relevance_score": 25,
+        "recommendation": "omit from the current article",
+        "findings": [
+          "The paper characterizes the structures and computational requirements of workflows from five scientific domains.",
+          "It provides synthetic workflow generators for benchmarking workflow systems and schedulers.",
+          "It does not address workflow preservation, software lifecycle, component compatibility, or deprecation."
+        ],
+        "potential_article_use": ["A broad statement that scientific workflows span multiple domains and structural patterns."],
+        "suggested_citation_text": "Scientific workflows vary substantially in structure, data volume, and computational requirements across research domains. Representative workflow structures can be used to evaluate workflow systems and scheduling methods.",
+        "limitations_for_this_article": "Its benchmarking and scheduling focus is remote from the article's preservation and deprecated-component questions."
+      },
+      "important_text_citation": {
+        "text": "We provide a characterization of workflows from five diverse scientific applications, describing their composition and data and computational requirements.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It states the paper's cross-domain characterization contribution."
+      }
+    },
+    {
+      "local_file": "data/articles/Enhancing_and_abstracting_scientific_wor.pdf",
+      "citation_key_suggestion": "alper2013enhancing",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Enhancing and Abstracting Scientific Workflow Provenance for Data Publishing",
+        "authors": ["Pinar Alper", "Khalid Belhajjame", "Carole A. Goble", "Pinar Karagoz"],
+        "year": 2013,
+        "container_title": "Proceedings of the Joint EDBT/ICDT 2013 Workshops",
+        "event": "International Workshop on Managing and Querying Provenance Data at Scale",
+        "pages": "313-318",
+        "publisher": "ACM",
+        "doi": "10.1145/2457317.2457370",
+        "isbn": "978-1-4503-1599-9"
+      },
+      "analysis": {
+        "relevance_score": 45,
+        "recommendation": "optional for provenance and contextual-metadata framing",
+        "findings": [
+          "The paper examines how workflow execution provenance can support curation and publication of generated datasets.",
+          "It argues that raw provenance is often too technical or incomplete for data publishing and proposes enhanced, abstracted provenance views.",
+          "The work concerns data publishing rather than component lifecycle or executable workflow preservation."
+        ],
+        "potential_article_use": ["Support a statement that raw workflow structures or traces may need contextualisation before they can support reuse.", "Distinguish provenance evidence from platform-component lifecycle evidence."],
+        "suggested_citation_text": "Workflow execution traces can help document the derivation and context of published scientific data. Raw provenance may nevertheless require enhancement and abstraction before it becomes useful for curation and reuse.",
+        "limitations_for_this_article": "The connection to deprecated KNIME nodes is indirect and largely covered by existing provenance citations."
+      },
+      "important_text_citation": {
+        "text": "Many scientists are using workflows to systematically design and run computational experiments.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It supports the broad scientific-workflow motivation."
+      }
+    },
+    {
+      "local_file": "data/articles/Incorporating_Scientific_Workflows_in_Co.pdf",
+      "citation_key_suggestion": "jha2019incorporating",
+      "bibliographic_record": {
+        "type": "journal-editorial",
+        "title": "Incorporating Scientific Workflows in Computing Research Processes",
+        "authors": ["Shantenu Jha", "Scott Lathrop", "Jarek Nabrzyski", "Lavanya Ramakrishnan"],
+        "year": 2019,
+        "container_title": "Computing in Science & Engineering",
+        "volume": "21",
+        "issue": "4",
+        "pages": "4-6",
+        "publisher": "IEEE Computer Society",
+        "doi": "10.1109/MCSE.2019.2917987",
+        "article_number": "8744422"
+      },
+      "analysis": {
+        "relevance_score": 55,
+        "recommendation": "optional for contemporary workflow-system context",
+        "findings": [
+          "The editorial presents scientific workflows as important resources for computational and data-intensive research.",
+          "It calls for greater sharing, interoperability, usability, sustainability, and coordination between workflow efforts.",
+          "It offers field-level motivation but no direct empirical evidence about workflow use or component obsolescence."
+        ],
+        "potential_article_use": ["Support a general statement about the continuing importance and development of scientific workflow systems.", "Frame sustainability and usability as community-level workflow concerns."],
+        "suggested_citation_text": "Scientific workflows remain important resources for computational and data-intensive discovery. Their wider adoption depends partly on improved usability, sustainability, and coordination across workflow efforts.",
+        "limitations_for_this_article": "This is a short special-issue introduction, so stronger empirical or review sources should be preferred where available."
+      },
+      "important_text_citation": {
+        "text": "This special issue aspires to increase awareness of the benefits of workflows to enhance scientific discovery.",
+        "pdf_page": 1,
+        "printed_page": 4,
+        "section": "Introduction",
+        "why_important": "It captures the editorial's broad motivation."
+      }
+    },
+    {
+      "local_file": "data/articles/Interacting_with_scientific_workflows.pdf",
+      "citation_key_suggestion": "nguyen2016interacting",
+      "bibliographic_record": {
+        "type": "doctoral-thesis",
+        "title": "Interacting with Scientific Workflows",
+        "authors": ["Hoang Anh Nguyen"],
+        "year": 2016,
+        "institution": "The University of Queensland",
+        "school": "School of Information Technology and Electrical Engineering",
+        "doi": null
+      },
+      "analysis": {
+        "relevance_score": 30,
+        "recommendation": "omit unless human-in-the-loop workflow interaction becomes part of the discussion",
+        "findings": [
+          "The thesis studies interaction with running scientific workflows and develops WorkWays for human-in-the-loop execution.",
+          "It emphasizes steering, examining intermediate results, and changing parameters during execution.",
+          "Its central concern is interaction rather than preservation, workflow sharing, or component lifecycle."
+        ],
+        "potential_article_use": ["Illustrate that visual workflows may include interactive execution and user steering rather than only static pipelines."],
+        "suggested_citation_text": "Some scientific workflows require users to inspect intermediate results and steer computation while it is running. Such interaction broadens workflow systems beyond static, fully automated pipelines.",
+        "limitations_for_this_article": "The thesis contributes little to the article's specific argument about deprecated functionality and should normally be omitted."
+      },
+      "important_text_citation": {
+        "text": "Scientific workflow technology has become a de facto standard in e-Science.",
+        "pdf_page": 2,
+        "section": "Abstract",
+        "why_important": "It states the thesis's broad motivation for studying workflow interaction."
+      }
+    },
+    {
+      "local_file": "data/articles/Issues_for_the_sharing_and_re_use_of_sci.pdf",
+      "citation_key_suggestion": "procter2009sharing",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Issues for the Sharing and Re-Use of Scientific Workflows",
+        "authors": ["Rob Procter", "Meik Poschen", "Yuwei Lin", "Carole Goble", "David De Roure"],
+        "year": 2009,
+        "container_title": "Proceedings of the 5th International Conference on e-Social Science",
+        "event": "5th International Conference on e-Social Science",
+        "event_location": "Cologne, Germany",
+        "doi": null
+      },
+      "analysis": {
+        "relevance_score": 78,
+        "recommendation": "recommended for workflow-sharing and reuse barriers",
+        "findings": [
+          "The paper reports qualitative evidence about myExperiment users' workflow-sharing and reuse practices.",
+          "It identifies technical, social, motivational, and contextual barriers to successful workflow reuse.",
+          "Its demand-side perspective complements platform metadata, although it predates the present KNIME and k2pweb evidence."
+        ],
+        "potential_article_use": ["Support the claim that making workflows available does not by itself ensure reuse.", "Frame component availability and compatibility as one part of a broader set of reuse barriers."],
+        "suggested_citation_text": "Workflow sharing and reuse depend on more than repository availability. Researchers also encounter contextual, technical, social, and incentive-related barriers when attempting to reuse workflows created by others.",
+        "limitations_for_this_article": "The study concerns myExperiment users generally and does not quantify platform deprecation or KNIME workflow compatibility."
+      },
+      "important_text_citation": {
+        "text": "We present evidence of myExperiment users’ workflow sharing and re-use practices, motivations, concerns and potential barriers.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It identifies the paper's empirical contribution to workflow reuse research."
+      }
+    },
+    {
+      "local_file": "data/articles/Managing_Rapidly_Evolving_Scientific_Wor.pdf",
+      "citation_key_suggestion": "freire2006managing",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Managing Rapidly-Evolving Scientific Workflows",
+        "authors": ["Juliana Freire", "Cláudio T. Silva", "Steven P. Callahan", "Emanuele Santos", "Carlos E. Scheidegger", "Huy T. Vo"],
+        "year": 2006,
+        "container_title": "Provenance and Annotation of Data: International Provenance and Annotation Workshop, IPAW 2006, Revised Selected Papers",
+        "series": "Lecture Notes in Computer Science",
+        "volume": "4145",
+        "pages": "10-18",
+        "publisher": "Springer",
+        "doi": "10.1007/11890850_2",
+        "isbn": "978-3-540-46303-0"
+      },
+      "analysis": {
+        "relevance_score": 72,
+        "recommendation": "use selectively for workflow evolution and version provenance",
+        "findings": [
+          "The paper presents VisTrails as infrastructure for systematically recording workflow and data-product provenance during exploratory analysis.",
+          "Its action-based model captures workflow changes and lets researchers navigate prior workflow versions and parameter settings.",
+          "It demonstrates that workflow definitions evolve, but it does not examine platform-component retirement or compatibility."
+        ],
+        "potential_article_use": ["Support the claim that scientific workflows are evolving artifacts rather than fixed diagrams.", "Contrast workflow-version provenance with the external lifecycle of the platform components referenced by a workflow."],
+        "suggested_citation_text": "Scientific workflows can evolve rapidly during exploratory analysis. Capturing workflow-version provenance helps researchers revisit earlier configurations, but does not by itself preserve the external components required to execute them.",
+        "limitations_for_this_article": "The paper's evolution model records user changes to VisTrails workflows, not deprecation changes in an underlying node repository."
+      },
+      "important_text_citation": {
+        "text": "This mechanism not only ensures reproducibility of results, but it also simplifies data exploration.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It links workflow-evolution provenance with reproducibility and exploration."
+      }
+    },
+    {
+      "local_file": "data/articles/NiW_Converting_Notebooks_into_Workflows.pdf",
+      "citation_key_suggestion": "carvalho2017niw",
+      "bibliographic_record": {
+        "type": "conference-workshop-paper",
+        "title": "NiW: Converting Notebooks into Workflows to Capture Dataflow and Provenance",
+        "authors": ["Lucas A. M. C. Carvalho", "Regina Wang", "Yolanda Gil", "Daniel Garijo"],
+        "year": 2017,
+        "container_title": "Proceedings of Workshops and Tutorials of the 9th International Conference on Knowledge Capture",
+        "series": "CEUR Workshop Proceedings",
+        "volume": "2065",
+        "pages": "12-16",
+        "publisher": "CEUR-WS.org",
+        "doi": null
+      },
+      "analysis": {
+        "relevance_score": 58,
+        "recommendation": "optional for comparison between notebooks and explicit workflows",
+        "findings": [
+          "The paper converts Jupyter notebooks into WINGS workflows with explicit components, dataflow, and provenance.",
+          "It argues that explicit workflow structure facilitates understanding, comparison, provenance capture, and subworkflow mining.",
+          "The conversion direction is the reverse of knime2py and the paper does not address component obsolescence."
+        ],
+        "potential_article_use": ["Support a comparison between notebook code and explicit visual-workflow structure.", "Explain why machine-readable factory or component identities enable structural analysis."],
+        "suggested_citation_text": "Explicit workflow structures make software components and data dependencies easier to inspect than raw notebook code. This structure can facilitate provenance capture, workflow comparison, and reuse analysis.",
+        "limitations_for_this_article": "The paper is more relevant to notebook-to-workflow translation than to KNIME-to-Python conversion or deprecated-node prevalence."
+      },
+      "important_text_citation": {
+        "text": "The resulting workflow descriptions have explicit dataflow, which facilitates tracking provenance of new results, comparison of workflows, and sub-workflow mining.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It states the analytical value of explicit workflow structure."
+      }
+    },
+    {
+      "local_file": "data/articles/Science_Capsule_Towards_Sharing_and_Repr.pdf",
+      "citation_key_suggestion": "ghoshal2021sciencecapsule",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Science Capsule: Towards Sharing and Reproducibility of Scientific Workflows",
+        "authors": ["Devarshi Ghoshal", "Ludovico Bianchi", "Abdelilah Essiari", "Drew Paine", "Sarah S. Poon", "Michael W. Beach", "Alpha T. N'Diaye", "Patrick Huck", "Lavanya Ramakrishnan"],
+        "year": 2021,
+        "container_title": "2021 IEEE/ACM 16th Workshop on Workflows in Support of Large-Scale Science",
+        "event": "WORKS 2021",
+        "pages": "66-73",
+        "publisher": "IEEE",
+        "doi": "10.1109/WORKS54523.2021.00014",
+        "isbn": "978-1-6654-1136-3"
+      },
+      "analysis": {
+        "relevance_score": 88,
+        "recommendation": "recommended for workflow context, execution environments, and version snapshots",
+        "findings": [
+          "The paper argues that sharing and reproducing workflows requires the workflow's broader context, including user notes and execution environments.",
+          "Science Capsule records computational and human workflow elements and creates snapshots that preserve versions and lineage.",
+          "This provides strong recent support for treating platform and component context as important to reproducibility."
+        ],
+        "potential_article_use": ["Support the claim that a workflow structure alone does not capture everything required for reproduction.", "Connect the article's dated KNIME snapshots with the broader importance of workflow and environment versioning."],
+        "suggested_citation_text": "Reproducing a scientific workflow requires more than its visible task graph. Execution environments, contextual records, workflow versions, and lineage can all be necessary for meaningful sharing and reuse.",
+        "limitations_for_this_article": "Science Capsule proposes preservation infrastructure but does not study deprecated workflow components empirically."
+      },
+      "important_text_citation": {
+        "text": "Sharing and reproducing these workflows with collaborators and the larger community is critical but hard to do without the entire context.",
+        "pdf_page": 2,
+        "section": "Abstract",
+        "why_important": "It directly connects workflow context with sharing and reproducibility."
+      }
+    },
+    {
+      "local_file": "data/articles/Scientific_Process_Automation_and_Workfl.pdf",
+      "citation_key_suggestion": "ludascher2009automation",
+      "bibliographic_record": {
+        "type": "book-chapter",
+        "title": "Scientific Process Automation and Workflow Management",
+        "authors": ["Bertram Ludäscher", "Ilkay Altintas", "Shawn Bowers", "Julian Cummings", "Terence Critchlow", "Ewa Deelman", "David De Roure", "Juliana Freire", "Carole Goble", "Matthew Jones", "Scott Klasky", "Timothy McPhillips", "Norbert Podhorszki", "Claudio Silva", "Ian Taylor", "Mladen Vouk"],
+        "year": 2009,
+        "container_title": "Scientific Data Management: Challenges, Technology, and Deployment",
+        "editors": ["Arie Shoshani", "Doron Rotem"],
+        "pages": "467-508",
+        "publisher": "Chapman and Hall/CRC",
+        "doi": "10.1201/9781420069815-c13"
+      },
+      "analysis": {
+        "relevance_score": 68,
+        "recommendation": "use selectively as a broad workflow-management reference",
+        "findings": [
+          "The chapter surveys scientific process automation, workflow models, provenance, execution, and systems including Kepler, Pegasus, Taverna, and VisTrails.",
+          "It describes workflows as mechanisms for automating and documenting computational scientific processes.",
+          "Its breadth makes it useful for foundational definitions but less focused than preservation-specific papers."
+        ],
+        "potential_article_use": ["Support general definitions and the historical development of scientific workflow management.", "Establish provenance and lifecycle management as core workflow-system capabilities."],
+        "suggested_citation_text": "Scientific workflow systems automate multistep computational processes while recording their structure and execution. Workflow management therefore encompasses design, enactment, provenance, monitoring, and reuse.",
+        "limitations_for_this_article": "The chapter predates the KNIME snapshots and contains no analysis of deprecation metadata or user exposure."
+      },
+      "important_text_citation": {
+        "text": "Scientific workflows are networks of analytical steps that may involve, e.g., database access and querying, data analysis and mining, and visualization.",
+        "pdf_page": 2,
+        "section": "Introduction",
+        "why_important": "It offers a compact description of the breadth of scientific workflow tasks."
+      }
+    },
+    {
+      "local_file": "data/articles/Scientific_Workflows.pdf",
+      "citation_key_suggestion": "liew2017workflows",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Scientific Workflows: Moving Across Paradigms",
+        "authors": ["Chee Sun Liew", "Malcolm Atkinson", "Michelle Galea", "Tan Fong Ang", "Paul Martin", "Jano van Hemert"],
+        "year": 2017,
+        "container_title": "ACM Computing Surveys",
+        "volume": "49",
+        "issue": "4",
+        "article_number": "66",
+        "publisher": "ACM",
+        "doi": "10.1145/3012429",
+        "issn": "0360-0300"
+      },
+      "analysis": {
+        "relevance_score": 82,
+        "recommendation": "recommended as a broad review of scientific workflow systems and their evolution",
+        "findings": [
+          "The survey explains why large, heterogeneous computational experiments are commonly represented and managed as workflows.",
+          "It reviews workflow-management-system characteristics and their evolution across changing scientific-computing paradigms.",
+          "Its treatment of heterogeneity, evolution, and system requirements supports the platform-side framing, although not deprecation specifically."
+        ],
+        "potential_article_use": ["Support the introduction's claim that visual and computational workflows are established scientific tools.", "Frame workflow platforms as evolving systems responding to changing applications, infrastructure, and data."],
+        "suggested_citation_text": "Workflow management systems help organise complex computational experiments across heterogeneous applications, platforms, and data resources. These systems have themselves evolved as scientific-computing practices and infrastructure have changed.",
+        "limitations_for_this_article": "The survey is broad and does not quantify component lifecycle states or persistence in saved workflows."
+      },
+      "important_text_citation": {
+        "text": "A common strategy to make these in silico experiments more manageable is to model them as workflows.",
+        "pdf_page": 2,
+        "section": "Abstract",
+        "why_important": "It directly motivates workflows as a response to computational complexity."
+      }
+    },
+    {
+      "local_file": "data/articles/Scientific_software_as_workflows_From_di.pdf",
+      "citation_key_suggestion": "woollard2008software",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Scientific Software as Workflows: From Discovery to Distribution",
+        "authors": ["David Woollard", "Nenad Medvidovic", "Yolanda Gil", "Chris A. Mattmann"],
+        "year": 2008,
+        "container_title": "IEEE Software",
+        "volume": "25",
+        "issue": "4",
+        "pages": "37-43",
+        "publisher": "IEEE",
+        "doi": "10.1109/MS.2008.92"
+      },
+      "analysis": {
+        "relevance_score": 60,
+        "recommendation": "optional for workflows as scientific software and alternatives to scripts",
+        "findings": [
+          "The paper describes scientific workflows as orchestration models for scientific software and alternatives to script-based integration.",
+          "It classifies workflow environments around discovery, production, and distribution phases of in-silico research.",
+          "It supports the idea that workflows are software artifacts, but does not address long-term component compatibility."
+        ],
+        "potential_article_use": ["Support a comparison of visual workflow platforms with script-based scientific software.", "Frame workflows as composed scientific software whose dependencies matter."],
+        "suggested_citation_text": "Scientific workflows orchestrate scientific software components into executable computational methods. They provide a structured alternative to script-based orchestration across discovery, production, and distribution activities.",
+        "limitations_for_this_article": "The paper is conceptual and system-oriented, with no preservation study or KNIME-specific evidence."
+      },
+      "important_text_citation": {
+        "text": "Scientific workflows are gaining recognition as an attractive alternative to script-based orchestration.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It positions workflow systems relative to scripts."
+      }
+    },
+    {
+      "local_file": "data/articles/The_myExperiment_Open_Repository_for_Sci.pdf",
+      "citation_key_suggestion": "deroure2009myexperiment",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "The myExperiment Open Repository for Scientific Workflows",
+        "authors": ["David De Roure", "Carole Goble", "Sergejs Aleksejevs", "Sean Bechhofer", "Jiten Bhagat", "Don Cruickshank", "Danius Michaelides", "David Newman"],
+        "year": 2009,
+        "container_title": "Proceedings of Open Repositories 2009",
+        "event": "Open Repositories 2009",
+        "event_location": "Atlanta, Georgia, USA",
+        "doi": null,
+        "repository_identifier": "eprints.soton.ac.uk/267131"
+      },
+      "analysis": {
+        "relevance_score": 76,
+        "recommendation": "recommended for workflows as shareable scholarly assets",
+        "findings": [
+          "The paper presents scientific workflows and experiment plans as born-digital scholarly objects requiring repository support and curation.",
+          "It describes myExperiment as a multi-system, multidisciplinary repository combining workflow sharing with social curation.",
+          "It provides historical support for observing workflows as reusable research artifacts, although not for component deprecation."
+        ],
+        "potential_article_use": ["Support the treatment of workflows as valuable research methods rather than disposable implementation details.", "Provide background on public workflow sharing, reuse, and community curation."],
+        "suggested_citation_text": "Scientific workflows encode research methods and can be treated as scholarly assets in their own right. Repositories and social curation can support their sharing, reuse, and stewardship across communities.",
+        "limitations_for_this_article": "The paper describes repository infrastructure and early usage figures, not long-term executability or lifecycle metadata."
+      },
+      "important_text_citation": {
+        "text": "myExperiment is an open repository solution for the born-digital items arising in contemporary research practice, in particular scientific workflows and experiment plans.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It directly classifies workflows as repository-worthy born-digital research objects."
+      }
+    },
+    {
+      "local_file": "data/articles/Towards_a_graphical_tool_for_modeling_sc.pdf",
+      "citation_key_suggestion": "vieira2022graphical",
+      "bibliographic_record": {
+        "type": "conference-workshop-paper",
+        "title": "Towards a Graphical Tool for Modeling Scientific Workflows’ Provenance According to the W3C PROV Standard",
+        "authors": ["Marcos Alves Vieira", "Sergio T. Carvalho"],
+        "year": 2022,
+        "container_title": "Proceedings of the XVI Brazilian e-Science Workshop",
+        "event": "BRESCI 2022",
+        "pages": "97-104",
+        "publisher": "Sociedade Brasileira de Computação",
+        "doi": "10.5753/bresci.2022.223297",
+        "issn": "2763-8774"
+      },
+      "analysis": {
+        "relevance_score": 45,
+        "recommendation": "optional for provenance standardisation; otherwise omit",
+        "findings": [
+          "The paper proposes a graphical tool for modelling scientific-workflow provenance using W3C PROV and model-driven engineering.",
+          "It relates provenance to workflow sharing, reproducibility, error evaluation, software versions, parameters, and data.",
+          "Its focus is representation tooling rather than observed workflow use or component lifecycle."
+        ],
+        "potential_article_use": ["Support a general claim that software versions and workflow artifacts belong in provenance records.", "Mention standardised provenance as complementary to platform metadata."],
+        "suggested_citation_text": "Scientific-workflow provenance can connect software versions, parameters, input data, outputs, and execution activities. Standardised graphical provenance models can support interpretation, sharing, and reproduction of computational experiments.",
+        "limitations_for_this_article": "It is a work-in-progress tool paper and adds little direct evidence to the deprecation analysis."
+      },
+      "important_text_citation": {
+        "text": "Provenance establishes the relationships between the artifacts associated with a given set of simulations.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It captures the paper's central view of workflow provenance."
+      }
+    },
+    {
+      "local_file": "data/articles/WorkflowHub_Community_Framework_for_Enab.pdf",
+      "citation_key_suggestion": "ferreiradasilva2020workflowhub",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "WorkflowHub: Community Framework for Enabling Scientific Workflow Research and Development",
+        "authors": ["Rafael Ferreira da Silva", "Loïc Pottier", "Tainã Coleman", "Ewa Deelman", "Henri Casanova"],
+        "year": 2020,
+        "container_title": "2020 IEEE/ACM Workflows in Support of Large-Scale Science",
+        "event": "WORKS 2020",
+        "pages": "49-56",
+        "publisher": "IEEE",
+        "doi": "10.1109/WORKS51914.2020.00012"
+      },
+      "analysis": {
+        "relevance_score": 20,
+        "recommendation": "omit from the current article",
+        "findings": [
+          "The paper introduces a framework for analysing execution traces, generating synthetic workflow traces, and simulating workflow executions.",
+          "It addresses reproducible evaluation of workflow-management algorithms and evolving production-workflow structures.",
+          "Despite its former WorkflowHub name, it is not the FAIR workflow registry now operating at workflowhub.eu."
+        ],
+        "potential_article_use": ["Only if the article later discusses benchmarking or synthetic workflow generation."],
+        "suggested_citation_text": "Workflow research frameworks can use execution traces and synthetic workflows to evaluate scheduling and simulation methods. Such infrastructure addresses workflow-system research rather than preservation of user-authored workflow components.",
+        "limitations_for_this_article": "Its subject is workflow simulation and systems research, not sharing, scientific reproducibility, deprecation, or KNIME."
+      },
+      "important_text_citation": {
+        "text": "Scientific workflows are a cornerstone of modern scientific computing.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It provides a concise high-level statement, although stronger sources are available for the same claim."
+      }
+    },
+    {
+      "local_file": "data/articles/Workflow_Systems_for_Science_Concepts_an.pdf",
+      "citation_key_suggestion": "talia2013workflow",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Workflow Systems for Science: Concepts and Tools",
+        "authors": ["Domenico Talia"],
+        "year": 2013,
+        "container_title": "ISRN Software Engineering",
+        "volume": "2013",
+        "article_number": "404525",
+        "pages": "1-15",
+        "publisher": "Hindawi",
+        "doi": "10.1155/2013/404525",
+        "issn": "2090-7680"
+      },
+      "analysis": {
+        "relevance_score": 55,
+        "recommendation": "optional as a general workflow-system survey",
+        "findings": [
+          "The paper surveys scientific workflow concepts and distributed workflow-management systems for high-performance, Grid, and Cloud computing.",
+          "It treats workflows as common structures for combining data analysis, computation, and simulation.",
+          "It is useful for general background but does not focus on preservation, reproducibility, or component evolution."
+        ],
+        "potential_article_use": ["Support general definitions of scientific workflows and workflow-management systems.", "Establish the diversity of workflow platforms and execution environments."],
+        "suggested_citation_text": "Scientific applications commonly organise data analysis, computation, and simulation as workflows. Workflow-management systems provide higher-level mechanisms for designing and executing these processes across distributed computing environments.",
+        "limitations_for_this_article": "The survey is broad and overlaps with the more comprehensive Liew et al. survey."
+      },
+      "important_text_citation": {
+        "text": "Most of these applications are designed as workflows that include data analysis, scientific computation methods and complex simulation techniques.",
+        "pdf_page": 1,
+        "section": "Abstract",
+        "why_important": "It concisely states the breadth of tasks represented in scientific workflows."
+      }
+    },
+    {
+      "local_file": "data/articles/Workflows_for_science_a_challenge_when_f.pdf",
+      "citation_key_suggestion": "badia2017workflows",
+      "bibliographic_record": {
+        "type": "journal-article",
+        "title": "Workflows for Science: A Challenge When Facing the Convergence of HPC and Big Data",
+        "authors": ["Rosa M. Badia", "Eduard Ayguadé", "Jesús Labarta"],
+        "year": 2017,
+        "container_title": "Supercomputing Frontiers and Innovations",
+        "volume": "4",
+        "issue": "1",
+        "pages": "27-47",
+        "doi": "10.14529/jsfi170102"
+      },
+      "analysis": {
+        "relevance_score": 60,
+        "recommendation": "optional for workflows as executable documentation and evolving platforms",
+        "findings": [
+          "The paper reviews scientific workflows across multiple communities and workflow-management approaches.",
+          "It explicitly describes workflows as both computing applications and documentation of scientific processes.",
+          "Its main concern is convergence between high-performance computing, analytics, and big data rather than preservation."
+        ],
+        "potential_article_use": ["Support the statement that workflows document scientific processes as well as execute computation.", "Provide background on the continued evolution and heterogeneity of workflow systems."],
+        "suggested_citation_text": "A scientific workflow is not only a computational application but also a representation of the process being performed. Workflow-management systems help researchers define, execute, publish, and document such processes.",
+        "limitations_for_this_article": "The paper's technical focus is future HPC and data-analytics workflows, with no component-lifecycle measurements."
+      },
+      "important_text_citation": {
+        "text": "A workflow is not only the computing application, but a way of documenting a process.",
+        "pdf_page": 1,
+        "printed_page": 27,
+        "section": "Abstract",
+        "why_important": "It directly connects workflow execution with methodological documentation."
+      }
+    },
+    {
+      "local_file": "data/articles/Working_with_Workflows_Highlights_from_5.pdf",
+      "citation_key_suggestion": "critchlow2011working",
+      "bibliographic_record": {
+        "type": "conference-paper",
+        "title": "Working with Workflows: Highlights from 5 Years Building Scientific Workflows",
+        "authors": ["Terence Critchlow", "Ilkay Altintas", "George Chin", "Daniel Crawl", "Hari Iyer", "Adeel Khan", "Scott Klasky", "Shreyas Koehler", "Bertram Ludäscher", "Pierre Mouallem", "Meiyappan Nagappan", "Norbert Podhorszki", "Arie Shoshani", "Claudio Silva", "Rafael Tchoua", "Mladen Vouk"],
+        "year": 2011,
+        "container_title": "Proceedings of the 2011 SciDAC Conference",
+        "event": "SciDAC 2011",
+        "event_location": "Denver, Colorado, USA",
+        "publisher": "U.S. Department of Energy",
+        "report_number": "PNNL-SA-80673",
+        "doi": null
+      },
+      "analysis": {
+        "relevance_score": 58,
+        "recommendation": "optional for practical experience maintaining workflow systems and components",
+        "findings": [
+          "The paper summarises five years of developing and deploying Kepler workflows for large-scale scientific applications.",
+          "It reports that generic actors and templates improved portability, while fault tolerance and provenance required continued development.",
+          "It provides practical evidence that workflow platforms and reusable components require maintenance, but not deprecation analysis."
+        ],
+        "potential_article_use": ["Support a statement that reusable workflow components and portability require sustained platform engineering.", "Provide a practical Kepler comparison to KNIME's evolving node ecosystem."],
+        "suggested_citation_text": "Long-running scientific workflow deployments require continued engineering of reusable components, portability, fault tolerance, provenance, and monitoring. Workflow platforms therefore evolve alongside the scientific applications they support.",
+        "limitations_for_this_article": "The report is a project retrospective and contains no systematic study of obsolete components or saved workflow exposure."
+      },
+      "important_text_citation": {
+        "text": "Our work on generic actors and templates have improved the portability of workflows across machines.",
+        "pdf_page": 1,
+        "section": "Introduction",
+        "why_important": "It links reusable workflow components with portability."
+      }
+    }
+  ]
+}

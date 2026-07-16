@@ -20,6 +20,7 @@ htmlcov/
 
 # Private inputs must never be committed. Only approved,
 # anonymized processed outputs belong in the repository.
+data/articles/
 data/private/
 private/
 

@@ -49,7 +49,7 @@ they express multi-step procedures as inspectable graphs of connected
 operations. When the executable workflow and its software context are
 preserved, this representation can support inspection, reuse, and
 reproducibility across scientific domains
-\cite{Fu2025GIScienceKNIME,KaplanKNIMEWorkflowAudit2026}.
+\cite{Liew2017Workflows,Ludascher2009Automation,Fu2025GIScienceKNIME,KaplanKNIMEWorkflowAudit2026}.
 
 KNIME is one of the most widely used open-source visual workflow platforms in
 scientific research. It represents data-analysis workflows as connected
@@ -63,18 +63,22 @@ Components can be replaced, hidden, declared deprecated, or removed as APIs,
 interfaces, and recommended analytical practices evolve. The workflow
 representation stores node identities and configuration alongside graph
 structure, but the ability to reuse an older workflow also depends on the
-lifecycle of those nodes and their extensions. A node may remain loadable after
-it disappears from the ordinary authoring interface, be mapped to a newer
-implementation, require a migration rule, or eventually depend on an extension
-that is difficult to recover.
+lifecycle of those nodes and their extensions
+\cite{DeRoure2011Preservation,Belhajjame2011Substitute}. A node may remain
+loadable after it disappears from the ordinary authoring interface, be mapped
+to a newer implementation, require a migration rule, or eventually depend on
+an extension that is difficult to recover.
 
 Scientific studies that use KNIME do not always preserve this software context.
 A reproducibility audit of 100 highly cited KNIME-matching studies found that
 18 reported a KNIME version, 22 reported a downloadable or linked workflow, and
 workflow artifacts or workflow directories were obtained for 18 records
-\cite{KaplanKNIMEWorkflowAudit2026}. Missing workflow artifacts and version
-information make it harder to determine which node implementations a study
-used and whether those components remain available.
+\cite{KaplanKNIMEWorkflowAudit2026}. Previous research likewise shows that
+workflow reuse depends on contextual records, execution environments, and
+continued access to suitable software
+\cite{Willoughby2017Documentation,Ghoshal2021ScienceCapsule}. Missing workflow
+artifacts and version information make it harder to determine which node
+implementations a study used and whether those components remain available.
 
 KNIME explicitly represents node deprecation in its extension metadata. The
 official node schema describes deprecated nodes as hidden from the node
@@ -125,7 +129,62 @@ translation support.
 
 \section{Literature Review}
 
-KNIME has been presented as an extensible visual data-analysis environment
+Scientific workflows have long been used to structure complex computational
+experiments as connected data-processing and analytical steps. Reviews of
+workflow systems describe their role in managing heterogeneous applications,
+computing platforms, and data resources \cite{Liew2017Workflows}, while earlier
+work identifies design, enactment, provenance, monitoring, and reuse as central
+parts of scientific workflow management \cite{Ludascher2009Automation}.
+Scientific workflow environments can consequently improve the reusability and
+maintenance of workflows and their components, as well as support provenance,
+version comparison, and failure recovery \cite{Altintas2006Accelerating}.
+
+Workflows are also research artifacts that encode scientific methods. The
+myExperiment repository treated workflows and experiment plans as born-digital
+scholarly objects to be shared, reused, and curated across communities
+\cite{Goble2010MyExperiment}. Empirical study of that repository nevertheless
+identified technical, contextual, social, and motivational barriers to
+workflow sharing and reuse \cite{Procter2009Sharing}. Repository availability
+alone therefore does not ensure that a workflow can later be understood or
+executed.
+
+Workflow definitions themselves evolve during scientific exploration.
+VisTrails, for example, records action-based provenance so that researchers can
+navigate earlier workflow versions and parameter settings
+\cite{Freire2006Managing}. Computational reproducibility, however, depends on
+more than a history of edits or a published description of an analysis.
+Provenance research in visual analytics argues for preserving records of the
+data, analytical process, and interpretation needed for later inspection and
+reuse \cite{Walker2013ProveML}.
+
+Preservation research describes \emph{workflow decay} as the loss of
+executability caused by external changes to the resources and services on
+which a workflow depends \cite{DeRoure2011Preservation}. Related work addresses
+this problem by identifying substitute services for unavailable workflow
+operations \cite{Belhajjame2011Substitute}. This literature is conceptually
+relevant to deprecated nodes because both concern dependencies that evolve
+outside the persisted workflow. It does not, however, imply that a deprecated
+component has already failed or that every obsolete component has a suitable
+replacement.
+
+Successful reuse also requires sufficient workflow context. KNIME-specific
+work shows that storing a workflow without documentation, parameters, metadata,
+associated data, and suitable software may be insufficient for later reuse
+\cite{Willoughby2017Documentation}. The Science Capsule framework similarly
+captures execution environments, contextual records, workflow versions, and
+lineage to support sharing and reproduction \cite{Ghoshal2021ScienceCapsule}.
+Even when an executable artifact is available, its dependencies can prevent
+reproduction: a large-scale study of biomedical Jupyter notebooks found
+failures during dependency installation and re-execution
+\cite{SamuelMietchen2024JupyterReproducibility}. Research on preserving
+computational environments shows how packaging software and its dependencies
+can improve mobility and repeatability \cite{Kurtzer2017Singularity}. For a
+node-based platform, this requirement extends to the workflow file, platform
+version, installed extensions, and implementations referenced by persisted node
+identities.
+
+Within this broader context, KNIME has been presented as an extensible visual
+data-analysis environment
 since its early platform description \cite{Berthold2009KNIME}. Its extension
 model allows additional functionality to be installed from update sites
 \cite{KNIMEExtensions2026}. This extensibility supports a broad analytical
@@ -145,11 +204,12 @@ registering workflow-node migration rules
 mechanisms support compatibility, but neither a mapper nor a migration rule is
 itself evidence that a node is deprecated.
 
-The resulting lifecycle states must not be collapsed. A deprecated node may
-still load; a hidden node need not be deprecated; a removed factory class may
-have a mapper; and a node unsupported by a translation tool may remain current
-in KNIME. The present study therefore measures declared metadata states and
-transitions rather than inferring workflow failure from source labels.
+This study treats deprecation, hidden status, factory removal, factory-class
+mapping, migration, and translation support as separate lifecycle dimensions.
+Deprecation status is derived only from declared KNIME metadata, while mapping
+and knime2py support are recorded independently. The analysis across source
+snapshots therefore reports metadata states and transitions without
+interpreting any individual state as evidence of workflow failure.
 
 \section{Data}
 
