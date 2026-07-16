@@ -4,7 +4,10 @@
 \usepackage{array}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{pgfplots}
 \usepackage{url}
+
+\pgfplotsset{compat=1.18}
 
 \newcommand{\twolinecol}[2]{\texttt{#1}\newline\texttt{#2}}
 
@@ -19,10 +22,10 @@
 \maketitle
 
 \begin{abstract}
-This study quantitatively analyzed deprecated
-functionality in visual workflows as represented in KNIME open-source code repositories
-and as retained in collected workflow examples. We found that deprecated
-nodes are not a marginal phenomenon either in the KNIME platform or in
+This study quantitatively analyzed deprecated functionality in visual
+workflows as represented in KNIME's open-source code repositories and retained
+in collected workflow examples. We found that deprecated
+nodes are not a marginal phenomenon either on the KNIME platform or in
 workflows created by KNIME users. We
 reconstructed 13 source-date snapshots of the public \texttt{knime-oss}
 repositories between April 2018 and June 2026 and parsed their structured
@@ -112,10 +115,10 @@ To answer these questions, we reconstruct 13 source-date snapshots of the
 public \texttt{knime-oss} repositories from 2018 to 2026 and parse structured
 extension metadata for ordinary nodes, dynamic node sets, hidden and deprecated
 states, factory-class mappings, and migration rules. We then build a registry
-of deprecated factory classes from the latest snapshot and join full factory
-identifiers exactly to 2745 node occurrences in 62 workflows that users
-uploaded to k2pweb for conversion from KNIME to Python between 2026-03-25 and
-2026-07-15.
+of deprecated factory classes from the latest snapshot and use full factory
+identifiers to perform an exact join between this registry and 2745 node
+occurrences in 62 workflows uploaded by users to k2pweb for conversion from
+KNIME to Python between 2026-03-25 and 2026-07-15.
 
 The main contribution of this study is quantitative evidence that deprecated nodes are not a
 marginal phenomenon in KNIME. In the latest source snapshot, 502 of 1506
@@ -142,7 +145,7 @@ version comparison, and failure recovery \cite{Altintas2006Accelerating}.
 Workflows are also research artifacts that encode scientific methods. The
 myExperiment repository treated workflows and experiment plans as born-digital
 scholarly objects to be shared, reused, and curated across communities
-\cite{Goble2010MyExperiment}. Empirical study of that repository nevertheless
+\cite{Goble2010MyExperiment}. An empirical study of that repository nevertheless
 identified technical, contextual, social, and motivational barriers to
 workflow sharing and reuse \cite{Procter2009Sharing}. Repository availability
 alone therefore does not ensure that a workflow can later be understood or
@@ -154,8 +157,8 @@ navigate earlier workflow versions and parameter settings
 \cite{Freire2006Managing}. Computational reproducibility, however, depends on
 more than a history of edits or a published description of an analysis.
 Provenance research in visual analytics argues for preserving records of the
-data, analytical process, and interpretation needed for later inspection and
-reuse \cite{Walker2013ProveML}.
+data, the analytical process, and the interpretation needed for later
+inspection and reuse \cite{Walker2013ProveML}.
 
 Preservation research describes \emph{workflow decay} as the loss of
 executability caused by external changes to the resources and services on
@@ -180,8 +183,8 @@ failures during dependency installation and re-execution
 computational environments shows how packaging software and its dependencies
 can improve mobility and repeatability \cite{Kurtzer2017Singularity}. For a
 node-based platform, this requirement extends to the workflow file, platform
-version, installed extensions, and implementations referenced by persisted node
-identities.
+version, installed extensions, and the implementations referenced by persisted
+node identities.
 
 Within this broader context, KNIME has been presented as an extensible visual
 data-analysis environment
@@ -215,22 +218,66 @@ interpreting any individual state as evidence of workflow failure.
 
 \subsection{KNIME snapshot analysis}
 
-The retained dataset contains 13 source-date snapshots:
+The retained dataset contains 13 source-date snapshots selected through two
+complementary sampling schemes. Release-anchored dates represent important
+points in the available KNIME Analytics Platform release history
+(Table~\ref{tab:release-snapshots}). Regular calendar checkpoints provide a
+consistent basis for comparing source metadata between those releases
+(Table~\ref{tab:calendar-snapshots}).
 
+\begin{table}
+\centering
+\caption{Release-anchored KNIME source snapshots.}
+\label{tab:release-snapshots}
+\small
+\begin{tabular}{p{0.19\textwidth}p{0.20\textwidth}p{0.51\textwidth}}
+\toprule
+Source date & Platform context & Role in the dataset \\
+\midrule
+2018-04-03 & 3.5.3 & Earliest locally available product-tag context and
+study baseline \\
+2019-12-05 & 4.1.0 & Anchor for the KNIME 4 release period \\
+2023-02-22 & 5.0.0 & Anchor for the transition to KNIME 5 \\
+2026-03-03 & 5.11.0 & Recent release anchor preceding the final study
+checkpoint \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\centering
+\caption{Year-based and final-observation KNIME source snapshots.}
+\label{tab:calendar-snapshots}
+\small
+\begin{tabular}{p{0.23\textwidth}p{0.67\textwidth}}
+\toprule
+Source date & Role in the dataset \\
+\midrule
+2019-01-01 & Annual checkpoint \\
+2020-01-01 & Annual checkpoint \\
+2021-01-01 & Annual checkpoint \\
+2022-01-01 & Annual checkpoint \\
+2023-01-01 & Annual checkpoint \\
+2024-01-01 & Annual checkpoint \\
+2025-01-01 & Annual checkpoint \\
+2026-01-01 & Annual checkpoint \\
+2026-06-28 & Final observation checkpoint \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Each row represents the state of the retained public source repositories at
+the specified date. Release anchors therefore provide version context, whereas
+the January checkpoints provide regular comparison intervals. The final
+2026-06-28 row captures the latest source state included in the study. These
+snapshots are reconstructed source states rather than archived binary KNIME
+distributions.
+
+The original snapshot evidence is stored under:
 \begin{quote}
-2018-04-03, 2019-01-01, 2019-12-05, 2020-01-01, 2021-01-01,
-2022-01-01, 2023-01-01, 2023-02-22, 2024-01-01, 2025-01-01,
-2026-01-01, 2026-03-03, and 2026-06-28.
+\path{data/original/knime_snapshots/}
 \end{quote}
-
-The dates combine annual checkpoints with major-version source-date anchors.
-The earliest locally available product-tag context is KNIME Analytics Platform
-3.5.3 on 2018-04-03. Later anchors include 4.1.0 on 2019-12-05, 5.0.0 on
-2023-02-22, and 5.11.0 on 2026-03-03. These rows are source states near release
-dates, not reconstructed binary distributions.
-
-Original evidence is stored in the snapshot directories under
-\path{data/original/knime_snapshots/}. The processed table is:
+The processed table is:
 \begin{quote}
 \path{data/processed/knime_snapshots/}\\
 \path{knime_node_snapshot_summary.csv}
@@ -270,26 +317,37 @@ counts.
 
 \subsection{Deprecated-node usage}
 
-The original k2pweb usage data were downloaded on 2026-07-15 and cover
-workflows recorded from the k2pweb release on 2026-03-25 through the download
-date. The data are stored in:
+k2pweb.org is an online service for converting KNIME workflows into executable
+Python representations \cite{K2PWeb2026}. A user uploads a KNIME workflow to
+the service and receives generated Python code, including scripts or Jupyter
+notebooks that can be downloaded and executed. The service performs the
+conversion by running the open-source knime2py converter
+\cite{KaplanKnime2py2026}.
+
+The study team had authorized access to the k2pweb.org database and therefore
+exported structural records from the workflows submitted for
+conversion. The export used in this study was downloaded on 2026-07-15 and
+covers workflows recorded from the k2pweb release on 2026-03-25 through the
+download date. The retained file contains workflow-local identifiers and node
+factory classes rather than uploaded workflow contents or user identifiers. It
+is stored in:
 \begin{quote}
 \path{data/original/k2pweb/factories.csv}
 \end{quote}
-The file contains 2745 node-occurrence records from 62 deduplicated workflows
+The file contains 2745 node-occurrence records from 62 workflows
 and includes 160 distinct fully qualified factory classes. Each value in the
-\texttt{index} column uniquely identifies one deduplicated workflow within the
+\texttt{index} column uniquely identifies one workflow within the
 export. Each value in the \texttt{factory} column is the fully qualified KNIME
-node-factory class for one node occurrence. Consequently, repeated rows for a
+node factory class for one node occurrence. Consequently, repeated rows for a
 factory within the same workflow represent multiple occurrences of that node
 type, rather than duplicate workflow records. The file contains no workflow
 contents, node settings, user identifiers, or session identifiers.
 
 This original file records node usage, not KNIME lifecycle status. Deprecated
 usage is determined by joining the full \texttt{factory} value to the KNIME
-source metadata using exact identifiers. Workflow prevalence, occurrence
-prevalence, distinct node types, and unmatched identifiers are kept as separate
-measurement units; no suffix or partial-string match is treated as evidence of
+source metadata using exact identifiers. Results for workflow prevalence,
+occurrence prevalence, distinct node types, and unmatched identifiers are
+reported separately; no suffix or partial-string match is treated as evidence of
 deprecation.
 
 The processed artifacts are a registry of unique deprecated factory classes in
@@ -307,7 +365,7 @@ observed factory class, and an aggregate usage summary:
 \subsection{KNIME snapshot analysis}
 
 We mine the public \texttt{knime-oss} repositories using date-based source
-snapshots. The local clone contains 91 immediate Git repositories. The mining
+snapshots. The local clone contains 91 top-level Git repositories. The mining
 process includes 90 non-hidden repositories and excludes the organization-level
 \texttt{.github} repository. For each target date, every included repository is
 checked out to its latest commit at or before 23:59:59 on that date. The
@@ -317,7 +375,7 @@ checkout script is stored as:
 \path{checkout_knime_oss_by_date.sh}
 \end{quote}
 It writes a manifest containing the repository, checkout status, target date,
-selected commit and commit date, and previous head.
+selected commit and commit date, and previous HEAD.
 
 For each reconstructed snapshot, \path{scripts/knime_source/collect_knime_node_snapshot.py}
 parses structured XML rather than searching source text. It skips
@@ -338,13 +396,17 @@ Dynamic node sets are collected separately from:
 \texttt{org.knime.workbench.repository.nodesets}
 \end{quote}
 
-Files ending in \texttt{NodeFactory.xml} and rooted at \texttt{knimeNode} are
-parsed as a secondary description-level source. Ordinary registrations whose
-hidden attribute is true are counted separately from deprecated registrations.
-The extractor also records contributions to
-\path{org.knime.core.NodeFactoryClassMapper} and
-\path{org.knime.workflow.migration.NodeMigrationRule}. These records describe
-compatibility mechanisms and are not counted as deprecation markers.
+XML files whose names end in \texttt{NodeFactory.xml} and whose root element is
+\texttt{knimeNode} are parsed as a secondary description-level source. Ordinary
+registrations whose \texttt{hidden} attribute is true are counted separately
+from deprecated registrations. The extractor also records contributions to the
+following extension points:
+\begin{quote}
+\path{org.knime.core.NodeFactoryClassMapper}\\
+\path{org.knime.workflow.migration.NodeMigrationRule}
+\end{quote}
+These records describe compatibility mechanisms and are not counted as
+deprecation markers.
 
 The per-snapshot outputs are:
 
@@ -362,8 +424,8 @@ The summary builder is stored under \path{scripts/knime_source/} as
 aggregate counts. It also compares adjacent snapshots. A non-empty factory
 class is used as the node identity. Registrations without one use the fallback
 key \path{plugin_xml:element:category_path}. Added and removed identities are
-set differences. Deprecation, hidden-status, and category transitions are
-calculated only for identities present in both adjacent snapshots. These are
+set differences. Transitions in deprecation status, hidden status, and category
+are calculated only for identities present in both adjacent snapshots. These are
 metadata-level approximations because refactoring a factory class can change
 the observed identity.
 
@@ -376,8 +438,8 @@ The usage-analysis script is stored as:
 \end{quote}
 It builds the deprecated-node factory registry from ordinary \texttt{node}
 registrations in the 2026-06-28 snapshot. A factory enters the registry when at
-least one of its registrations has a case-insensitive
-\texttt{deprecated="true"} value.
+least one of its registrations has a \texttt{deprecated} value that is
+case-insensitively equal to \texttt{true}.
 Multiple registrations of the same full factory class are aggregated into one
 registry row while retaining registration counts, repositories, plug-in XML
 files, category paths, and hidden-registration counts.
@@ -385,9 +447,9 @@ files, category paths, and hidden-registration counts.
 The script then joins each k2pweb \texttt{factory} value to the complete set of
 ordinary-node factory classes in that snapshot. Exact matches are classified as
 deprecated or not deprecated; identifiers absent from the snapshot are retained
-as \texttt{not\_found}. No partial, suffix, or inferred alias match is used.
+as \texttt{not\_found}. No partial-string, suffix, or inferred-alias match is used.
 The analysis reports exact-join coverage before deprecation prevalence and
-keeps deduplicated workflows, node occurrences, and distinct factory classes as
+uses workflows, node occurrences, and distinct factory classes as
 separate denominators. A workflow is classified as containing deprecated usage
 when at least one of its occurrences exactly matches a registry factory.
 
@@ -395,13 +457,70 @@ when at least one of its occurrences exactly matches a registry factory.
 
 \subsection{KNIME snapshot analysis}
 
+This subsection reports how declared ordinary-node deprecation changes across
+the retained KNIME source snapshots. It first presents the percentage trend at
+the annual checkpoints and then examines selected release anchors, repository
+coverage, and changes between adjacent snapshots. All percentages use
+registered ordinary nodes as the denominator; dynamic node sets are reported
+separately. Figure~\ref{fig:deprecated-percent-year} shows the annual trend,
+using the 2018-04-03 baseline for 2018 and the January checkpoint for each year
+from 2019 through 2026.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.92\textwidth,
+  height=0.48\textwidth,
+  xlabel={Snapshot year},
+  ylabel={Deprecated ordinary nodes (\%)},
+  xmin=2017.6,
+  xmax=2026.4,
+  ymin=0,
+  ymax=40,
+  xtick={2018,2019,2020,2021,2022,2023,2024,2025,2026},
+  xticklabel style={/pgf/number format/1000 sep={}},
+  ytick={0,10,20,30,40},
+  grid=major,
+  major grid style={draw=gray!30},
+  tick label style={font=\small},
+  label style={font=\small},
+  nodes near coords,
+  every node near coord/.append style={font=\scriptsize,anchor=south},
+  point meta={y},
+  scaled ticks=false
+]
+\addplot[
+  color=black,
+  mark=*,
+  mark options={fill=white},
+  line width=1pt
+] coordinates {
+  (2018,14.83)
+  (2019,16.53)
+  (2020,19.00)
+  (2021,29.14)
+  (2022,27.11)
+  (2023,30.32)
+  (2024,30.40)
+  (2025,29.97)
+  (2026,33.47)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Percentage of registered ordinary KNIME nodes marked deprecated at
+the annual source checkpoints. The 2018 point uses the earliest retained
+baseline of 2018-04-03; subsequent points use January 1 snapshots.}
+\label{fig:deprecated-percent-year}
+\end{figure}
+
 At the earliest source baseline, 2018-04-03, 193 of 1301 registered ordinary
 nodes were marked deprecated, or 14.83\% (Table~\ref{tab:selected-snapshots}).
 At the KNIME Analytics Platform 5.0.0 source-date anchor on 2023-02-22, the
 count is 433 of 1442 nodes, or 30.03\%. The final 2026-06-28 snapshot contains
-502 deprecated ordinary nodes out of 1506, or 33.33\%. The declared deprecated
-share therefore approximately doubles between the earliest and final retained
-snapshots.
+502 deprecated ordinary nodes out of 1506, or 33.33\%. The declared share of
+deprecated nodes therefore approximately doubles between the earliest and
+final retained snapshots.
 
 \begin{table}
 \centering
@@ -422,11 +541,12 @@ Date & Version context & Nodes & Deprecated & Share \\
 \end{table}
 
 Annual checkpoints show the same broad increase while making the changing
-repository coverage explicit (Table~\ref{tab:annual-snapshots}). Repositories
-with a valid checkout rise from 44 in 2018 to 90 in 2026, so raw early and late
-node totals do not describe a fixed source corpus. Deprecated share is less
-sensitive to this difference but can still be affected by repositories entering
-the corpus. Hidden ordinary nodes remain much less frequent, increasing from 2
+repository coverage explicit (Table~\ref{tab:annual-snapshots}). The number of
+repositories with a valid checkout rises from 44 in 2018 to 90 in 2026, so raw
+early and late node totals do not describe a fixed source corpus. The deprecated
+share is less sensitive to this difference but can still be affected by
+repositories entering the corpus. Hidden ordinary nodes remain much less
+frequent, increasing from 2
 in the 2018 checkpoint to 24 in 2026. Deprecated dynamic node sets appear from
 2020 onward and remain at 2 through the 2026 annual checkpoint.
 
@@ -437,7 +557,7 @@ in the 2018 checkpoint to 24 in 2026. Deprecated dynamic node sets appear from
 \scriptsize
 \begin{tabular}{llrrrrrr}
 \toprule
-Year & Date & Repos & Nodes & Deprecated & Nodesets & Hidden & Share \\
+Year & Date & Repos & Nodes & Deprecated & Node sets & Hidden & Share \\
 \midrule
 2018 & 2018-04-03 & 44 & 1301 & 193 & 0 & 2 & 14.83\% \\
 2019 & 2019-01-01 & 45 & 1500 & 248 & 0 & 2 & 16.53\% \\
@@ -453,8 +573,8 @@ Year & Date & Repos & Nodes & Deprecated & Nodesets & Hidden & Share \\
 \end{table}
 
 The transition results show bursts rather than a constant deprecation rate
-(Table~\ref{tab:annual-transitions}). The largest annual counts of newly
-deprecated common node identities occur in 2021, 2023, and 2026: 80, 61, and
+(Table~\ref{tab:annual-transitions}). The largest annual counts of common node
+identities newly marked as deprecated occur in 2021, 2023, and 2026: 80, 61, and
 60, respectively. The 2022 checkpoint is the only annual row with a substantial
 count of common identities no longer marked deprecated (29). Category-path
 changes are concentrated in 2021 and 2023.
@@ -490,16 +610,25 @@ registry for the demand-side analysis below.
 
 \subsection{Deprecated-node usage}
 
-The 2026-06-28 registry contains 487 unique deprecated factory classes derived
-from 502 deprecated ordinary-node registrations. Fifteen factory classes each
-have two deprecated registrations, explaining the difference between factory-
-and registration-level counts.
+This subsection quantifies the presence of deprecated nodes in workflows
+submitted to k2pweb for conversion. It first establishes the deprecated-factory
+registry and exact-identifier join coverage, then examines unmatched factory
+classes and reports deprecated-node prevalence at the workflow, node-occurrence,
+and distinct-factory levels.
 
-Of the 160 factory classes observed in k2pweb, 146 (91.25\%) match an ordinary
-node factory in the classification snapshot. These exact matches account for
-2549 of 2745 occurrences (92.86\%). The remaining 14 factory classes and 196
-occurrences are retained as unmatched and are excluded from claims about their
-deprecation state.
+The 2026-06-28 registry contains 487 unique deprecated factory classes derived
+from 502 deprecated ordinary-node registrations. Fifteen factory classes have
+two deprecated registrations each. This explains the difference between the
+factory- and registration-level counts.
+
+Exact matching links 146 of the 160 factory classes observed in k2pweb
+(91.25\%) to ordinary-node factory classes in the classification snapshot.
+These matches account for 2549 of 2745 occurrences (92.86\%). The remaining 14
+factory classes and 196
+occurrences are unmatched because their exact factory identifiers do not occur
+among the ordinary-node registrations in the 2026-06-28 classification
+snapshot. They are therefore retained in the join audit but excluded from
+claims about their deprecation state.
 
 The unmatched identifiers have more than one explanation. The factory
 \path{org.knime.dynamic.js.v30.DynamicJSNodeFactory} is produced dynamically by
@@ -508,18 +637,18 @@ The unmatched identifiers have more than one explanation. The factory
 factory
 {\scriptsize\path{org.knime.timeseries.node.stringtotimestamp.String2DateNodeFactory}}
 appears as an ordinary registration in the 2018 and 2019 snapshots but is absent
-from the later retained snapshots. Persisted older workflows can nevertheless
-retain its factory identifier. The remaining 12 unmatched factories never
-appear as ordinary registrations in any retained public-source snapshot. They
+from the later retained snapshots. Older persisted workflows can nevertheless
+retain its factory identifier. The remaining 12 unmatched factory classes never
+appear as ordinary registrations in any retained public source snapshot. They
 may originate from separately distributed extensions, non-public distribution
 bundles, or components outside the included \texttt{knime-oss} repositories.
 This group comprises JEP, Data Generation, Tableau, Formulas, and newer
 base-view factories.
 
-Among all 62 deduplicated workflows, 21 contain at least one exact match to a
-deprecated factory (33.87\%). Deprecated factories account for 294 of all 2745
-node occurrences (10.71\%) and 21 distinct observed factory classes. Table~
-\ref{tab:k2pweb-usage} keeps the three counting units separate.
+Among all 62 workflows, 21 contain at least one exact match to a
+deprecated factory (33.87\%). Deprecated factories account for 294 of 2745
+node occurrences (10.71\%) and 21 distinct observed factory classes.
+Table~\ref{tab:k2pweb-usage} keeps the three counting units separate.
 
 \begin{table}
 \centering
@@ -546,16 +675,16 @@ establish execution failure, translation failure, or causation.
 \section{Discussion}
 
 The main result is a growing declared legacy surface. Approximately one third
-of ordinary registered nodes are deprecated in the latest retained snapshot,
+of registered ordinary nodes are deprecated in the latest retained snapshot,
 compared with about one seventh at the earliest source baseline. This change is
-not monotonic at every checkpoint, and it occurs alongside changing repository
-coverage, node additions, removals, category changes, and compatibility
+not monotonic across the checkpoints, and it occurs alongside changing
+repository coverage, node additions, removals, category changes, and compatibility
 metadata. The per-snapshot records are therefore more informative than a single
 current count.
 
 Deprecation should be interpreted cautiously. KNIME deliberately loads
-deprecated nodes in existing workflows, so the marker supports backward
-compatibility as well as signalling risk. A deprecated workflow node may remain
+deprecated nodes in existing workflows, so the marker both supports backward
+compatibility and signals risk. A deprecated workflow node may remain
 fully executable. Conversely, a workflow may fail because of a missing
 extension, input, configuration, or external dependency even when none of its
 nodes is deprecated. Repository metadata can identify candidates for
@@ -571,8 +700,8 @@ low-risk legacy nodes from nodes with unclear migration paths.
 The k2pweb analysis provides complementary demand-side evidence
 \cite{KaplanKnime2py2026,K2PWeb2026}. One third of the observed workflows
 contain a node classified as deprecated in the latest source snapshot, although
-deprecated nodes form a smaller share of occurrences. This sample is a
-self-selected population of k2pweb users and is not representative of all KNIME
+deprecated nodes form a smaller share of occurrences. This workflow sample is
+self-selected and is not representative of all KNIME
 workflows. Raw logs, uploaded workflows, settings, paths, credentials, IP
 addresses, and stable user identifiers remain outside the research repository.
 Future exports should add translation-support and conversion-outcome fields
