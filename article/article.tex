@@ -19,24 +19,24 @@
 \maketitle
 
 \begin{abstract}
-Visual workflows support scientific data analysis, but persisted workflows
-depend on platform components whose lifecycle changes over time. When studies
-do not preserve executable workflows or report platform versions, deprecated
-components can complicate later reuse and reproduction. This paper quantifies
-how common deprecated nodes are in public KNIME source repositories and in
-workflows uploaded by users for KNIME-to-Python conversion. We reconstruct 13
-source-date snapshots of the public \texttt{knime-oss} repositories between
-April 2018 and June 2026, parse structured extension and compatibility metadata,
-build a registry of deprecated factory classes, and join exact factory
-identifiers to 2745 node occurrences in 62 k2pweb workflows uploaded between
-2026-03-25 and 2026-07-15. Deprecated ordinary-node registrations increase from
-193 of 1301 (14.83\%) in the 2018 baseline to 502 of 1506 (33.33\%) in the
-latest snapshot, where they represent 487 distinct factory classes. The join
-matches 146 of 160 observed factory classes and 2549 of 2745 occurrences.
-Twenty-one distinct deprecated factory classes account for 294 occurrences
-(10.71\%) and appear in 21 workflows (33.87\%). These results show that
-deprecated nodes are not a marginal phenomenon on either the platform or usage
-side. 
+This study quantitatively analyzed deprecated
+functionality in visual workflows as represented in KNIME open-source code repositories
+and as retained in collected workflow examples. We found that deprecated
+nodes are not a marginal phenomenon either in the KNIME platform or in
+workflows created by KNIME users. We
+reconstructed 13 source-date snapshots of the public \texttt{knime-oss}
+repositories between April 2018 and June 2026 and parsed their structured
+extension and compatibility metadata. Across these snapshots, the number of
+deprecated nodes increased from 193 of 1301 (14.83\%) in the 2018
+baseline to 502 of 1506 (33.33\%) in the latest snapshot. In addition, using the
+latest snapshot, we built a deprecated-node registry and joined its factory-class
+identifiers to 2745 node occurrences in 62 workflows uploaded by users to
+k2pweb.org between 2026-03-25 and 2026-07-15. We found that 294 of the 2745 node
+occurrences (10.71\%) were deprecated and that 21 of the 62 workflows (33.87\%)
+contained at least one deprecated node.
+This study is important because visual workflows
+depend on evolving platform components, and deprecation can complicate their
+later reuse and reproduction.
 
 \keywords{KNIME \and Deprecated nodes \and Workflow reproducibility \and
 Software evolution \and Repository mining}
